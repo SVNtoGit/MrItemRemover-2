@@ -7,33 +7,95 @@
  * Version 1.5 for WoW Version 5.3 +
  */
 
-using System.Windows.Forms;
-using MrItemRemover2.GUI;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows.Forms;
+using System.Windows.Media;
+using MrItemRemover2.GUI;
+using Styx;
+using Styx.Common;
+using Styx.Common.Helpers;
+using Styx.Plugins;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using System.IO;
-using Styx.Plugins;
-using Styx;
-using Styx.Common.Helpers;
-using Styx.Common;
-using System.Collections.Generic;
-using System.Windows.Media;
-
 
 namespace MrItemRemover2
 {
-
     public partial class MrItemRemover2 : HBPlugin
     {
-        const string _name = "Mr.ItemRemover2";
+        private const string _name = "Mr.ItemRemover2";
+        private readonly WaitTimer CheckTimer = new WaitTimer(TimeSpan.FromMinutes(MrItemRemover2Settings.Instance.Time));
+
+        private readonly string KeepListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                            string.Format(
+                                                                @"Plugins/MrItemRemover2/ItemNameKeepListV2.txt"));
+
+        private readonly string OpnListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                           string.Format(@"Plugins/MrItemRemover2/ItemNameOpnList.txt"));
+
+        private readonly string RemoveListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                              string.Format(
+                                                                  @"Plugins/MrItemRemover2/ItemNameRemoveList.txt"));
+
+        private readonly string SellListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                            string.Format(@"Plugins/MrItemRemover2/ItemNameSellList.txt"));
+
+        public List<string> _InventoryList = new List<string>
+            {
+            };
+
+        public List<string> _ItemName = new List<string>
+            {
+            };
+
+        //Specific items from the TXT Doc are loaded here.
+        public List<string> _ItemNameSell = new List<string>
+            {
+            };
+
+        public List<string> _KeepList = new List<string>
+            {
+            };
+
+        public List<string> _OpnList = new List<string>
+            {
+            };
 
         //Normal Stuff.
-        public override string Name { get { return _name; } }
-        public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(1, 5); } }
-        public override bool WantButton { get { return true; } }
-        public override string ButtonText { get { return _name; } }
+        public override string Name
+        {
+            get { return _name; }
+        }
+
+        public override string Author
+        {
+            get { return "CnG & Bambam922"; }
+        }
+
+        public override Version Version
+        {
+            get { return new Version(1, 5); }
+        }
+
+        public override bool WantButton
+        {
+            get { return true; }
+        }
+
+        public override string ButtonText
+        {
+            get { return _name; }
+        }
+
+        public bool ManualCheckRequested { get; set; }
+        private bool EnableCheck { get; set; }
+        private bool IsInitialized { get; set; }
+
+        private static LocalPlayer Me
+        {
+            get { return StyxWoW.Me; }
+        }
 
 
         public override void OnButtonPress()
@@ -47,7 +109,7 @@ namespace MrItemRemover2
             var form = new MrItemRemover2GUI(this);
             form.ShowDialog();
         }
-    
+
         public static void slog(string format, params object[] args)
         {
             slog(Colors.Lime, format, args);
@@ -75,7 +137,7 @@ namespace MrItemRemover2
             Lua.Events.AttachEvent("DELETE_ITEM_CONFIRM", DeleteItemConfirmPopup);
             Lua.Events.AttachEvent("MERCHANT_SHOW", SellVenderItems);
             Lua.Events.AttachEvent("LOOT_CLOSED", LootEnded);
-            
+
             slog("Initial Loading of Item names.");
             initialMIRLoad();
             MrItemRemover2Settings.Instance.Load();
@@ -84,13 +146,6 @@ namespace MrItemRemover2
             IsInitialized = true;
         }
 
-        public bool ManualCheckRequested { get; set; }
-       
-        private WaitTimer CheckTimer = new WaitTimer(TimeSpan.FromMinutes(MrItemRemover2Settings.Instance.Time));
-        private bool EnableCheck { get; set; }
-        private bool IsInitialized { get; set; }
-        private static LocalPlayer Me { get { return StyxWoW.Me; } }
-   
         public override void Pulse()
         {
             if (ManualCheckRequested)
@@ -100,8 +155,8 @@ namespace MrItemRemover2
                 CheckTimer.Reset();
 
                 slog("Checking Bags Manually & Reloading Item Lists.");
-            } 
-            
+            }
+
             else if (!MrItemRemover2Settings.Instance.LootEnable)
             {
                 if (CheckTimer.TimeLeft.Ticks <= 0)
@@ -112,13 +167,15 @@ namespace MrItemRemover2
                         CheckTimer.Reset();
 
                         slog("Enabling Check at {0}", GetTime(DateTime.Now));
-                        dlog("Checktimer has Finished its Total wait of {0} Minutes, Enabling Item Check for next Opportunity", MrItemRemover2Settings.Instance.Time.ToString());
+                        dlog(
+                            "Checktimer has Finished its Total wait of {0} Minutes, Enabling Item Check for next Opportunity",
+                            MrItemRemover2Settings.Instance.Time.ToString());
                         slog("Will Run Next Check At {0}", GetTime(CheckTimer.EndTime));
                     }
                 }
             }
 
-    
+
             if (!Me.Combat && !Me.IsCasting && !Me.IsDead && !Me.IsGhost && EnableCheck)
             {
                 dlog("EnableCheck was Passed!");
@@ -132,7 +189,7 @@ namespace MrItemRemover2
                 }
                 EnableCheck = false;
                 dlog("Turning off Check Since Done!");
-            }            
+            }
         }
 
         private void LootEnded(object sender, LuaEventArgs args)
@@ -148,41 +205,6 @@ namespace MrItemRemover2
         }
 
         //All items from the TXT Doc are loaded here.
-        public List<string> _ItemName = new List<string>
-        {
-
-        };
-
-        //Specific items from the TXT Doc are loaded here.
-        public List<string> _ItemNameSell = new List<string>
-        {
-
-        };
-
-        public List<string> _InventoryList = new List<string>
-        {
-
-        };
-
-        public List<string> _KeepList = new List<string>
-        {
-
-        };
-
-        public List<string> _OpnList = new List<string>
-        {
-
-        };
-
-        //file Path for Saving and Loading. 
-        private string RemoveListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                              string.Format(@"Plugins/MrItemRemover2/ItemNameRemoveList.txt"));
-        private string SellListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/ItemNameSellList.txt"));
-        private string KeepListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/ItemNameKeepListV2.txt"));
-        private string OpnListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/ItemNameOpnList.txt"));
 
         public void initialMIRLoad()
         {
@@ -202,7 +224,7 @@ namespace MrItemRemover2
             LoadList(_ItemName, RemoveListPath);
             LoadList(_ItemNameSell, SellListPath);
             LoadList(_KeepList, KeepListPath);
-            LoadList(_OpnList, OpnListPath); 
+            LoadList(_OpnList, OpnListPath);
         }
 
         public void LoadList(List<string> ListToLoad, string FilePath)
@@ -210,7 +232,7 @@ namespace MrItemRemover2
             ListToLoad.Clear();
             try
             {
-                StreamReader Read = new StreamReader(Convert.ToString(FilePath));
+                var Read = new StreamReader(Convert.ToString(FilePath));
                 while (Read.Peek() >= 0)
                 {
                     ListToLoad.Add(Convert.ToString(Read.ReadLine()));
@@ -258,4 +280,3 @@ namespace MrItemRemover2
         }
     }
 }
-

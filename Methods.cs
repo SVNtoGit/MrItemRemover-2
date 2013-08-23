@@ -1,12 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
-using System;
-using Styx.Common;
+using Styx;
+using Styx.CommonBot.Frames;
 using Styx.Helpers;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using Styx;
-using Styx.CommonBot.Frames;
 
 namespace MrItemRemover2
 {
@@ -69,11 +69,13 @@ namespace MrItemRemover2
 
             // NB: Since we will be modifying the Me.BagItems list indirectly through WoWclient directives,
             // we can't use it as our iterator--we must make a copy, instead.
-            var itemsToVisit = Me.BagItems.ToList();
+            List<WoWItem> itemsToVisit = Me.BagItems.ToList();
             foreach (WoWItem item in itemsToVisit)
             {
                 if ((item == null) || !item.IsValid)
-                    { continue; }
+                {
+                    continue;
+                }
 
                 if (_OpnList.Contains(item.Name))
                 {
@@ -96,13 +98,15 @@ namespace MrItemRemover2
 
             // NB: Since we will be modifying the Me.BagItems list indirectly through WoWclient directives,
             // we can't use it as our iterator--we must make a copy, instead.
-            var itemsToVisit = Me.BagItems.ToList();
+            List<WoWItem> itemsToVisit = Me.BagItems.ToList();
             foreach (WoWItem item in itemsToVisit)
             {
                 if ((item == null) || !item.IsValid)
-                { continue; }
-                
-                var isQuestItem = IsQuestItem(item);
+                {
+                    continue;
+                }
+
+                bool isQuestItem = IsQuestItem(item);
 
                 /* Uncomment this to have quest items printed to log. DIAGNOSTIC.
                 Logging.Write("{0} is quest item: {1}", item.Name, isQuestItem);
@@ -120,7 +124,8 @@ namespace MrItemRemover2
                     Thread.Sleep(600);
                 }
 
-                if (MrItemRemover2Settings.Instance.DeleteQuestItems && item.ItemInfo.BeginQuestId != 0 && !_KeepList.Contains(item.Name))
+                if (MrItemRemover2Settings.Instance.DeleteQuestItems && item.ItemInfo.BeginQuestId != 0 &&
+                    !_KeepList.Contains(item.Name))
                 {
                     slog("{0}'s Began a Quest. Removing", item.Name);
                     item.PickUp();
@@ -128,10 +133,13 @@ namespace MrItemRemover2
                 }
 
                 //Process all Gray Items if enabled. 
-                if (MrItemRemover2Settings.Instance.DeleteAllGray && item.Quality == WoWItemQuality.Poor && !_KeepList.Contains(item.Name))
+                if (MrItemRemover2Settings.Instance.DeleteAllGray && item.Quality == WoWItemQuality.Poor &&
+                    !_KeepList.Contains(item.Name))
                 {
                     //Gold Format, goes in GXX SXX CXX 
-                    string Gold = MrItemRemover2Settings.Instance.GoldGrays.ToString() + MrItemRemover2Settings.Instance.SilverGrays.ToString() + MrItemRemover2Settings.Instance.CopperGrays.ToString();
+                    string Gold = MrItemRemover2Settings.Instance.GoldGrays.ToString() +
+                                  MrItemRemover2Settings.Instance.SilverGrays.ToString() +
+                                  MrItemRemover2Settings.Instance.CopperGrays.ToString();
                     if (item.BagSlot != -1 && item.ItemInfo.SellPrice <= Gold.ToInt32())
                     {
                         slog("{0}'s Item Quality was Poor. Removing:", item.Name);
@@ -143,7 +151,8 @@ namespace MrItemRemover2
                 }
 
                 //Process all White Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllWhite && item.Quality == WoWItemQuality.Common && !_KeepList.Contains(item.Name))
+                if (MrItemRemover2Settings.Instance.DeleteAllWhite && item.Quality == WoWItemQuality.Common &&
+                    !_KeepList.Contains(item.Name))
                 {
                     if (item.BagSlot != -1 && !isQuestItem)
                     {
@@ -156,7 +165,8 @@ namespace MrItemRemover2
                 }
 
                 //Process all Green Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllGreen && item.Quality == WoWItemQuality.Uncommon && !_KeepList.Contains(item.Name))
+                if (MrItemRemover2Settings.Instance.DeleteAllGreen && item.Quality == WoWItemQuality.Uncommon &&
+                    !_KeepList.Contains(item.Name))
                 {
                     if (item.BagSlot != -1 && !isQuestItem)
                     {
@@ -169,7 +179,8 @@ namespace MrItemRemover2
                 }
 
                 //Process all Blue Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllBlue && item.Quality == WoWItemQuality.Rare && !_KeepList.Contains(item.Name))
+                if (MrItemRemover2Settings.Instance.DeleteAllBlue && item.Quality == WoWItemQuality.Rare &&
+                    !_KeepList.Contains(item.Name))
                 {
                     if (item.BagSlot != -1 && !isQuestItem)
                     {
@@ -199,12 +210,15 @@ namespace MrItemRemover2
         private bool IsQuestItem(WoWItem item)
         {
             if ((item == null) || !item.IsValid)
-                { return false; }
+            {
+                return false;
+            }
 
-            var luaCommand = string.Format("return GetContainerItemQuestInfo({0},{1});", item.BagIndex + 1, item.BagSlot + 1);
-            var isQuestItem =
-                Lua.GetReturnVal<bool>(luaCommand, 0)           // item is quest item?
-                || (Lua.GetReturnVal<int>(luaCommand, 1) > 0);  // item begins a quest?
+            string luaCommand = string.Format("return GetContainerItemQuestInfo({0},{1});", item.BagIndex + 1,
+                                              item.BagSlot + 1);
+            bool isQuestItem =
+                Lua.GetReturnVal<bool>(luaCommand, 0) // item is quest item?
+                || (Lua.GetReturnVal<int>(luaCommand, 1) > 0); // item begins a quest?
 
             return isQuestItem;
         }
