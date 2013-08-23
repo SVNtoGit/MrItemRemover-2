@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 using Styx;
 using Styx.WoWInternals.WoWObjects;
-using System.IO;
-
 
 namespace MrItemRemover2.GUI
 {
     public partial class MrItemRemover2GUI : Form
     {
-        public MrItemRemover2 Controller { get; private set; }
+        private readonly string GoldImangePathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                                  string.Format(@"Plugins/MrItemRemover2/Gold2.bmp"));
 
-        public static void slog(string format, params object[] args)
-        {
-            MrItemRemover2.slog(format, args);
-        }
+        private readonly string refreshImangePathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                                                                     string.Format(@"Plugins/MrItemRemover2/ref.bmp"));
 
         public MrItemRemover2GUI(MrItemRemover2 controller)
         {
@@ -23,12 +21,17 @@ namespace MrItemRemover2.GUI
             InitializeComponent();
         }
 
-        private string refreshImangePathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, string.Format(@"Plugins/MrItemRemover2/ref.bmp"));
-        private string GoldImangePathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, string.Format(@"Plugins/MrItemRemover2/Gold2.bmp"));
+        public MrItemRemover2 Controller { get; private set; }
+
+        public static void slog(string format, params object[] args)
+        {
+            MrItemRemover2.slog(format, args);
+        }
+
         private void MrItemRemover2GUI_Load(object sender, EventArgs e)
         {
-            Bitmap refresh = new Bitmap(refreshImangePathName);
-            Bitmap GoldImg = new Bitmap(GoldImangePathName);
+            var refresh = new Bitmap(refreshImangePathName);
+            var GoldImg = new Bitmap(GoldImangePathName);
             GoldBox.Image = GoldImg;
             resf.Image = refresh;
             Controller.MIRLoad();
@@ -92,7 +95,7 @@ namespace MrItemRemover2.GUI
         private void RefreshBagItems_Click(object sender, EventArgs e)
         {
             MyBag.Items.Clear();
-            foreach (WoWItem BagItem in Styx.StyxWoW.Me.BagItems)
+            foreach (WoWItem BagItem in StyxWoW.Me.BagItems)
             {
                 if (BagItem.BagSlot != -1 && !MyBag.Items.Contains(BagItem.Name))
                 {
@@ -132,7 +135,6 @@ namespace MrItemRemover2.GUI
         {
             if (SellList.SelectedItem != null)
             {
-
                 slog("{0} Removed", SellList.SelectedItem.ToString());
                 Controller._ItemNameSell.Remove(SellList.SelectedItem.ToString());
                 SellList.Items.Remove(SellList.SelectedItem);
@@ -143,7 +145,6 @@ namespace MrItemRemover2.GUI
         {
             if (RemoveList.SelectedItem != null)
             {
-
                 slog("{0} Removed", RemoveList.SelectedItem.ToString());
                 Controller._ItemName.Remove(RemoveList.SelectedItem.ToString());
                 RemoveList.Items.Remove(RemoveList.SelectedItem);
@@ -196,7 +197,7 @@ namespace MrItemRemover2.GUI
             MrItemRemover2Settings.Instance.SellGray = SellGray.Checked;
         }
 
-       /* private void ApplyAll_CheckedChanged(object sender, EventArgs e)
+        /* private void ApplyAll_CheckedChanged(object sender, EventArgs e)
         {
             MrItemRemover2Settings.Instance.ApplyAll = ApplyAll.Checked;
         }*/
@@ -250,7 +251,6 @@ namespace MrItemRemover2.GUI
         {
             if (OpnList.SelectedItem != null)
             {
-
                 slog("{0} Removed", OpnList.SelectedItem.ToString());
                 Controller._OpnList.Remove(OpnList.SelectedItem.ToString());
                 OpnList.Items.Remove(OpnList.SelectedItem);
@@ -265,7 +265,7 @@ namespace MrItemRemover2.GUI
         private void resf_Click(object sender, EventArgs e)
         {
             MyBag.Items.Clear();
-            foreach (WoWItem BagItem in Styx.StyxWoW.Me.BagItems)
+            foreach (WoWItem BagItem in StyxWoW.Me.BagItems)
             {
                 if (BagItem.BagSlot != -1 && !MyBag.Items.Contains(BagItem.Name))
                 {
@@ -295,27 +295,22 @@ namespace MrItemRemover2.GUI
 
         private void SellList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
         private void OpnList_SelectedIndexChanged(object sender, EventArgs e)
         {
-
         }
 
         private void groupBox3_Enter(object sender, EventArgs e)
         {
-
         }
 
         private void SellBlue_CheckedChanged_1(object sender, EventArgs e)
         {
-
         }
-        
+
         private void label5_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
