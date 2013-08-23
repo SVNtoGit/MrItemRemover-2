@@ -1,10 +1,10 @@
 ﻿/*
  * Mr.ItemRemover2 - Created by CodenameGamma - 1-31-11 - For WoW Version 4.0.3
- * 1.4.2 Update by Bambam922
+ * 1.5 Update by Bambam922
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 1.4.2
+ * Version 1.5 for WoW Version 5.3 +
  */
 
 using System.Windows.Forms;
@@ -26,12 +26,12 @@ namespace MrItemRemover2
 
     public partial class MrItemRemover2 : HBPlugin
     {
-        const string _name = "Mr.ItemRemoverDEV";
+        const string _name = "Mr.ItemRemover2";
 
         //Normal Stuff.
         public override string Name { get { return _name; } }
         public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(1, 4, 2, 1); } }
+        public override Version Version { get { return new Version(1, 5); } }
         public override bool WantButton { get { return true; } }
         public override string ButtonText { get { return _name; } }
 
@@ -99,7 +99,7 @@ namespace MrItemRemover2
                 ManualCheckRequested = false;
                 CheckTimer.Reset();
 
-                slog("Checking Bags Manually & Reloading of Item Lists.");
+                slog("Checking Bags Manually & Reloading Item Lists.");
             } 
             
             else if (!MrItemRemover2Settings.Instance.LootEnable)
