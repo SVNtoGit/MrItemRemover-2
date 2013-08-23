@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System;
 using Styx.Common;
@@ -102,9 +101,12 @@ namespace MrItemRemover2
             {
                 if ((item == null) || !item.IsValid)
                 { continue; }
-
+                
                 var isQuestItem = IsQuestItem(item);
+
+                /* Uncomment this to have quest items printed to log. DIAGNOSTIC.
                 Logging.Write("{0} is quest item: {1}", item.Name, isQuestItem);
+                */
 
                 //if item name Matches whats in the text file / the internal list (after load)
                 if (_ItemName.Contains(item.Name) && !_KeepList.Contains(item.Name))
@@ -120,15 +122,9 @@ namespace MrItemRemover2
 
                 if (MrItemRemover2Settings.Instance.DeleteQuestItems && item.ItemInfo.BeginQuestId != 0 && !_KeepList.Contains(item.Name))
                 {
-                    //if (item.BagSlot != -1)
-                    //{
-                    ///int bagins2 = item.BagIndex + 1;
-                    //int bagssl2 = item.BagSlot + 1;
                     slog("{0}'s Began a Quest. Removing", item.Name);
-                    //Lua.DoString("PickupContainerItem(" + bagins2 + "," + bagssl2 + ")");
                     item.PickUp();
                     Lua.DoString("DeleteCursorItem()");
-                    //}
                 }
 
                 //Process all Gray Items if enabled. 
@@ -162,9 +158,9 @@ namespace MrItemRemover2
                 //Process all Green Items if enabled.
                 if (MrItemRemover2Settings.Instance.DeleteAllGreen && item.Quality == WoWItemQuality.Uncommon && !_KeepList.Contains(item.Name))
                 {
-                    if (item.BagSlot != -1)
+                    if (item.BagSlot != -1 && !isQuestItem)
                     {
-                        slog("{0}'s Item Quality was Uncommon. Removing:", item.Name);
+                        slog("{0}'s Item Quality was Uncommon. Removing.", item.Name);
                         Lua.DoString("ClearCursor()");
                         item.PickUp();
                         Lua.DoString("DeleteCursorItem()");
@@ -175,9 +171,9 @@ namespace MrItemRemover2
                 //Process all Blue Items if enabled.
                 if (MrItemRemover2Settings.Instance.DeleteAllBlue && item.Quality == WoWItemQuality.Rare && !_KeepList.Contains(item.Name))
                 {
-                    if (item.BagSlot != -1)
+                    if (item.BagSlot != -1 && !isQuestItem)
                     {
-                        slog("{0}'s Item Quality was Rare. Removing:", item.Name);
+                        slog("{0}'s Item Quality was Rare. Removing.", item.Name);
                         Lua.DoString("ClearCursor()");
                         item.PickUp();
                         Lua.DoString("DeleteCursorItem()");

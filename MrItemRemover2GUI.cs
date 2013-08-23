@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
-using System.Windows.Media;
 using Styx;
-using Styx.Common;
 using Styx.WoWInternals.WoWObjects;
-using Styx.WoWInternals;
 using System.IO;
 
 
