@@ -29,7 +29,7 @@ namespace MrItemRemover2
 
         private readonly string KeepListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                             string.Format(
-                                                                @"Plugins/MrItemRemover2/ItemNameKeepListV2.txt"));
+                                                                @"Plugins/MrItemRemover2/ItemNameKeepList.txt"));
 
         private readonly string OpnListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                                            string.Format(@"Plugins/MrItemRemover2/ItemNameOpnList.txt"));
