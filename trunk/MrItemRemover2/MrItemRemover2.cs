@@ -4,7 +4,7 @@
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 1.5 for WoW Version 5.3+
+ * Version 1.5 for WoW Version 5.3 +
  */
 
 using System;
