@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrItemRemover2", "MrItemRemover2\MrItemRemover2.csproj", "{15E18B9F-91CF-4D93-9492-EF118970CD4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrItemRemover2", "MrItemRemover2.csproj", "{15E18B9F-91CF-4D93-9492-EF118970CD4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,8 +16,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

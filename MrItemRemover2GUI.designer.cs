@@ -57,6 +57,8 @@
             this.SellGreen = new System.Windows.Forms.CheckBox();
             this.SellGray = new System.Windows.Forms.CheckBox();
             this.GrayItems = new System.Windows.Forms.CheckBox();
+            this.SellSoulbound = new System.Windows.Forms.CheckBox();
+            this.SellBlue = new System.Windows.Forms.CheckBox();
             this.RemoveQItems = new System.Windows.Forms.CheckBox();
             this.Save = new System.Windows.Forms.Button();
             this.Run = new System.Windows.Forms.Button();
@@ -67,7 +69,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.GoldBox = new System.Windows.Forms.PictureBox();
             this.LootEnable = new System.Windows.Forms.CheckBox();
-            this.SellBlue = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.BlueItems = new System.Windows.Forms.CheckBox();
             this.WhiteItems = new System.Windows.Forms.CheckBox();
@@ -547,11 +548,23 @@
             this.GreenItems.UseVisualStyleBackColor = true;
             this.GreenItems.CheckedChanged += new System.EventHandler(this.GreenItems_CheckedChanged);
             // 
+            // SellSoulbound
+            // 
+            this.SellSoulbound.AutoSize = true;
+            this.SellSoulbound.Location = new System.Drawing.Point(201, 327);
+            this.SellSoulbound.Name = "SellSoulbound";
+            this.SellSoulbound.Size = new System.Drawing.Size(106, 17);
+            this.SellSoulbound.TabIndex = 44;
+            this.SellSoulbound.Text = "   Sell Soulbound";
+            this.SellSoulbound.UseVisualStyleBackColor = true;
+            this.SellSoulbound.CheckedChanged += new System.EventHandler(this.SellSoulbound_CheckedChanged);
+            // 
             // MrItemRemover2GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 354);
+            this.Controls.Add(this.SellSoulbound);
             this.Controls.Add(this.WhiteItems);
             this.Controls.Add(this.GreenItems);
             this.Controls.Add(this.BlueItems);
@@ -644,5 +657,6 @@
         private System.Windows.Forms.CheckBox BlueItems;
         private System.Windows.Forms.CheckBox WhiteItems;
         private System.Windows.Forms.CheckBox GreenItems;
+        private System.Windows.Forms.CheckBox SellSoulbound;
     }
 }

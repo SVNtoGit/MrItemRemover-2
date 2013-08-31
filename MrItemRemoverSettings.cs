@@ -44,6 +44,9 @@ namespace MrItemRemover2
         public bool SellBlue { get; set; }
 
         [Setting, DefaultValue(false)]
+        public bool SellSoulbound { get; set; }
+
+        [Setting, DefaultValue(false)]
         public bool SellGray { get; set; }
 
         [Setting, DefaultValue(true)]
