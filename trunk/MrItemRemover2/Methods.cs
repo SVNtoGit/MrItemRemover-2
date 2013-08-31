@@ -18,32 +18,69 @@ namespace MrItemRemover2
             {
                 foreach (WoWItem item in Me.BagItems)
                 {
-                    if (!item.IsSoulbound && !_KeepList.Contains(item.Name))
+                    if (!MrItemRemover2Settings.Instance.SellSoulbound)
                     {
-                        if (item.Quality == WoWItemQuality.Poor && MrItemRemover2Settings.Instance.SellGray)
+                        if (!item.IsSoulbound && !_KeepList.Contains(item.Name))
                         {
-                            slog("Selling Gray Item {0}", item.Name);
-                            item.UseContainerItem();
+                            if (item.Quality == WoWItemQuality.Poor && MrItemRemover2Settings.Instance.SellGray)
+                            {
+                                slog("Selling Gray Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (item.Quality == WoWItemQuality.Common && MrItemRemover2Settings.Instance.SellWhite)
+                            {
+                                slog("Selling White Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (item.Quality == WoWItemQuality.Uncommon && MrItemRemover2Settings.Instance.SellGreen)
+                            {
+                                slog("Selling Green Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (item.Quality == WoWItemQuality.Rare && MrItemRemover2Settings.Instance.SellBlue)
+                            {
+                                slog("Selling Blue Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (_ItemNameSell.Contains(item.Name))
+                            {
+                                slog("Item Matched List Selling {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            
                         }
-                        if (item.Quality == WoWItemQuality.Common && MrItemRemover2Settings.Instance.SellWhite)
+                    }
+
+                    if (MrItemRemover2Settings.Instance.SellSoulbound)
+                    {
+                        if (!_KeepList.Contains(item.Name))
                         {
-                            slog("Selling White Item {0}", item.Name);
-                            item.UseContainerItem();
-                        }
-                        if (item.Quality == WoWItemQuality.Uncommon && MrItemRemover2Settings.Instance.SellGreen)
-                        {
-                            slog("Selling Green Item {0}", item.Name);
-                            item.UseContainerItem();
-                        }
-                        if (item.Quality == WoWItemQuality.Rare && MrItemRemover2Settings.Instance.SellBlue)
-                        {
-                            slog("Selling Blue Item {0}", item.Name);
-                            item.UseContainerItem();
-                        }
-                        if (_ItemNameSell.Contains(item.Name))
-                        {
-                            slog("Item Matched List Selling {0}", item.Name);
-                            item.UseContainerItem();
+                            if (item.Quality == WoWItemQuality.Poor && MrItemRemover2Settings.Instance.SellGray)
+                            {
+                                slog("Selling Gray Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (item.Quality == WoWItemQuality.Common && MrItemRemover2Settings.Instance.SellWhite)
+                            {
+                                slog("Selling White Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (item.Quality == WoWItemQuality.Uncommon && MrItemRemover2Settings.Instance.SellGreen)
+                            {
+                                slog("Selling Green Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (item.Quality == WoWItemQuality.Rare && MrItemRemover2Settings.Instance.SellBlue)
+                            {
+                                slog("Selling Blue Item {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            if (_ItemNameSell.Contains(item.Name))
+                            {
+                                slog("Item Matched List Selling {0}", item.Name);
+                                item.UseContainerItem();
+                            }
+                            
                         }
                     }
                 }
@@ -133,8 +170,7 @@ namespace MrItemRemover2
                 }
 
                 //Process all Gray Items if enabled. 
-                if (MrItemRemover2Settings.Instance.DeleteAllGray && item.Quality == WoWItemQuality.Poor &&
-                    !_KeepList.Contains(item.Name))
+                if (MrItemRemover2Settings.Instance.DeleteAllGray && item.Quality == WoWItemQuality.Poor && !_KeepList.Contains(item.Name))
                 {
                     //Gold Format, goes in GXX SXX CXX 
                     string Gold = MrItemRemover2Settings.Instance.GoldGrays.ToString() +
