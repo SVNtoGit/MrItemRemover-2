@@ -173,10 +173,8 @@ namespace MrItemRemover2
                 if (MrItemRemover2Settings.Instance.DeleteAllGray && item.Quality == WoWItemQuality.Poor && !_KeepList.Contains(item.Name))
                 {
                     //Gold Format, goes in GXX SXX CXX 
-                    string Gold = MrItemRemover2Settings.Instance.GoldGrays.ToString() +
-                                  MrItemRemover2Settings.Instance.SilverGrays.ToString() +
-                                  MrItemRemover2Settings.Instance.CopperGrays.ToString();
-                    if (item.BagSlot != -1 && item.ItemInfo.SellPrice <= Gold.ToInt32())
+                    string gold = MrItemRemover2Settings.Instance.GoldGrays.ToString() + MrItemRemover2Settings.Instance.SilverGrays.ToString() + MrItemRemover2Settings.Instance.CopperGrays.ToString();
+                    if (item.BagSlot != -1 && !isQuestItem && item.ItemInfo.SellPrice <= gold.ToInt32())
                     {
                         slog("{0}'s Item Quality was Poor. Removing:", item.Name);
                         Lua.DoString("ClearCursor()");

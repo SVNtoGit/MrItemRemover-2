@@ -1,10 +1,10 @@
 ﻿/*
  * Mr.ItemRemover2 - Created by CodenameGamma - 1-31-11 - For WoW Version 4.0.3
- * 1.5.1 Update by Bambam922
+ * 1.5.2 Update by Bambam922
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 1.5.1 for WoW Version 5.3 +
+ * Version 1.5.2 for WoW Version 5.3 +
  */
 
 using System.Windows.Forms;
@@ -31,7 +31,7 @@ namespace MrItemRemover2
         //Normal Stuff.
         public override string Name { get { return _name; } }
         public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(1, 5, 1); } }
+        public override Version Version { get { return new Version(1, 5, 2); } }
         public override bool WantButton { get { return true; } }
         public override string ButtonText { get { return _name; } }
 
