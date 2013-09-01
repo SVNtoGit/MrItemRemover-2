@@ -24,27 +24,27 @@ namespace MrItemRemover2
                         {
                             if (item.Quality == WoWItemQuality.Poor && MrItemRemover2Settings.Instance.SellGray)
                             {
-                                slog("Selling Gray Item {0}", item.Name);
+                                slog("Selling Gray Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (item.Quality == WoWItemQuality.Common && MrItemRemover2Settings.Instance.SellWhite)
                             {
-                                slog("Selling White Item {0}", item.Name);
+                                slog("Selling White Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (item.Quality == WoWItemQuality.Uncommon && MrItemRemover2Settings.Instance.SellGreen)
                             {
-                                slog("Selling Green Item {0}", item.Name);
+                                slog("Selling Green Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (item.Quality == WoWItemQuality.Rare && MrItemRemover2Settings.Instance.SellBlue)
                             {
-                                slog("Selling Blue Item {0}", item.Name);
+                                slog("Selling Blue Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (_ItemNameSell.Contains(item.Name))
                             {
-                                slog("Item Matched List Selling {0}", item.Name);
+                                slog("{0} Matched Sell List.", item.Name);
                                 item.UseContainerItem();
                             }
                             
@@ -57,27 +57,27 @@ namespace MrItemRemover2
                         {
                             if (item.Quality == WoWItemQuality.Poor && MrItemRemover2Settings.Instance.SellGray)
                             {
-                                slog("Selling Gray Item {0}", item.Name);
+                                slog("Selling Gray Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (item.Quality == WoWItemQuality.Common && MrItemRemover2Settings.Instance.SellWhite)
                             {
-                                slog("Selling White Item {0}", item.Name);
+                                slog("Selling White Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (item.Quality == WoWItemQuality.Uncommon && MrItemRemover2Settings.Instance.SellGreen)
                             {
-                                slog("Selling Green Item {0}", item.Name);
+                                slog("Selling Green Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (item.Quality == WoWItemQuality.Rare && MrItemRemover2Settings.Instance.SellBlue)
                             {
-                                slog("Selling Blue Item {0}", item.Name);
+                                slog("Selling Blue Item {0}.", item.Name);
                                 item.UseContainerItem();
                             }
                             if (_ItemNameSell.Contains(item.Name))
                             {
-                                slog("Item Matched List Selling {0}", item.Name);
+                                slog("{0} Matched Sell List.", item.Name);
                                 item.UseContainerItem();
                             }
                             
@@ -93,7 +93,7 @@ namespace MrItemRemover2
 
             if (Me.CurrentTarget != null)
             {
-                slog("Clicking Yes to Comfirm {0}'s Removal From Inventory", ItemNamePopUp);
+                slog("Clicking Yes to Comfirm {0}'s Removal From Inventory.", ItemNamePopUp);
                 Lua.DoString("RunMacroText(\"/click StaticPopup1Button1\");");
             }
         }
@@ -117,7 +117,7 @@ namespace MrItemRemover2
                 if (_OpnList.Contains(item.Name))
                 {
                     //probally not needed, but still user could be messing with thier inventory.
-                    slog("{0} Found Open Item", item.Name);
+                    slog("Found Item to Open - {0}.", item.Name);
                     item.Interact();
                     Thread.Sleep(600);
                 }
@@ -154,7 +154,7 @@ namespace MrItemRemover2
                 {
                     //probally not needed, but still user could be messing with thier inventory.
                     //Printing to the log, and Deleting the Item.
-                    slog("{0} Found Removing Item", item.Name);
+                    slog("Remove List Item Found - {0}.", item.Name);
                     item.PickUp();
                     Lua.DoString("DeleteCursorItem()");
                     //a small Sleep, might not be needed. 
@@ -164,7 +164,7 @@ namespace MrItemRemover2
                 if (MrItemRemover2Settings.Instance.DeleteQuestItems && item.ItemInfo.BeginQuestId != 0 &&
                     !_KeepList.Contains(item.Name))
                 {
-                    slog("{0}'s Began a Quest. Removing", item.Name);
+                    slog("{0} Began a Quest. Removing.", item.Name);
                     item.PickUp();
                     Lua.DoString("DeleteCursorItem()");
                 }
