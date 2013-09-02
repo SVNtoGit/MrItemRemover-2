@@ -46,8 +46,7 @@ namespace MrItemRemover2
                             {
                                 slog("{0} Matched Sell List.", item.Name);
                                 item.UseContainerItem();
-                            }
-                            
+                            }                            
                         }
                     }
 
@@ -79,8 +78,7 @@ namespace MrItemRemover2
                             {
                                 slog("{0} Matched Sell List.", item.Name);
                                 item.UseContainerItem();
-                            }
-                            
+                            }                            
                         }
                     }
                 }
