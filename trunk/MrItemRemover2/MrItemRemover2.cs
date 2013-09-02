@@ -31,7 +31,7 @@ namespace MrItemRemover2
         //Normal Stuff.
         public override string Name { get { return _name; } }
         public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(1, 5, 2); } }
+        public override Version Version { get { return new Version(1, 5, 3); } }
         public override bool WantButton { get { return true; } }
         public override string ButtonText { get { return _name; } }
 
