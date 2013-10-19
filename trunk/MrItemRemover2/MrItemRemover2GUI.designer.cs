@@ -1,7 +1,8 @@
-﻿namespace MrItemRemover2.GUI
+﻿namespace MrItemRemover2
 {
-    partial class MrItemRemover2GUI
+    partial class MrItemRemover2Gui
     {
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -390,6 +391,28 @@
             this.GrayItems.UseVisualStyleBackColor = true;
             this.GrayItems.CheckedChanged += new System.EventHandler(this.GrayItems_CheckedChanged);
             // 
+            // SellSoulbound
+            // 
+            this.SellSoulbound.AutoSize = true;
+            this.SellSoulbound.Location = new System.Drawing.Point(201, 327);
+            this.SellSoulbound.Name = "SellSoulbound";
+            this.SellSoulbound.Size = new System.Drawing.Size(106, 17);
+            this.SellSoulbound.TabIndex = 44;
+            this.SellSoulbound.Text = "   Sell Soulbound";
+            this.SellSoulbound.UseVisualStyleBackColor = true;
+            this.SellSoulbound.CheckedChanged += new System.EventHandler(this.SellSoulbound_CheckedChanged);
+            // 
+            // SellBlue
+            // 
+            this.SellBlue.AutoSize = true;
+            this.SellBlue.Location = new System.Drawing.Point(201, 310);
+            this.SellBlue.Name = "SellBlue";
+            this.SellBlue.Size = new System.Drawing.Size(104, 17);
+            this.SellBlue.TabIndex = 39;
+            this.SellBlue.Text = "   Sell Blue Items";
+            this.SellBlue.UseVisualStyleBackColor = true;
+            this.SellBlue.CheckedChanged += new System.EventHandler(this.SellBlue_CheckedChanged_1);
+            // 
             // RemoveQItems
             // 
             this.RemoveQItems.AutoSize = true;
@@ -407,7 +430,7 @@
             this.Save.Name = "Save";
             this.Save.Size = new System.Drawing.Size(94, 26);
             this.Save.TabIndex = 32;
-            this.Save.Text = "Save Settings";
+            this.Save.Text = "Save and Close";
             this.Save.UseVisualStyleBackColor = true;
             this.Save.Click += new System.EventHandler(this.Save_Click);
             // 
@@ -495,17 +518,6 @@
             this.LootEnable.UseVisualStyleBackColor = true;
             this.LootEnable.CheckedChanged += new System.EventHandler(this.LootEnable_CheckedChanged);
             // 
-            // SellBlue
-            // 
-            this.SellBlue.AutoSize = true;
-            this.SellBlue.Location = new System.Drawing.Point(201, 310);
-            this.SellBlue.Name = "SellBlue";
-            this.SellBlue.Size = new System.Drawing.Size(104, 17);
-            this.SellBlue.TabIndex = 39;
-            this.SellBlue.Text = "   Sell Blue Items";
-            this.SellBlue.UseVisualStyleBackColor = true;
-            this.SellBlue.CheckedChanged += new System.EventHandler(this.SellBlue_CheckedChanged_1);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -548,22 +560,12 @@
             this.GreenItems.UseVisualStyleBackColor = true;
             this.GreenItems.CheckedChanged += new System.EventHandler(this.GreenItems_CheckedChanged);
             // 
-            // SellSoulbound
-            // 
-            this.SellSoulbound.AutoSize = true;
-            this.SellSoulbound.Location = new System.Drawing.Point(201, 327);
-            this.SellSoulbound.Name = "SellSoulbound";
-            this.SellSoulbound.Size = new System.Drawing.Size(106, 17);
-            this.SellSoulbound.TabIndex = 44;
-            this.SellSoulbound.Text = "   Sell Soulbound";
-            this.SellSoulbound.UseVisualStyleBackColor = true;
-            this.SellSoulbound.CheckedChanged += new System.EventHandler(this.SellSoulbound_CheckedChanged);
-            // 
             // MrItemRemover2GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 354);
+            this.ControlBox = false;
             this.Controls.Add(this.SellSoulbound);
             this.Controls.Add(this.WhiteItems);
             this.Controls.Add(this.GreenItems);
@@ -595,7 +597,10 @@
             this.Controls.Add(this.SilverGrays);
             this.Controls.Add(this.Time);
             this.Controls.Add(this.GoldBox);
-            this.Name = "MrItemRemover2GUI";
+            this.MaximumSize = new System.Drawing.Size(798, 392);
+            this.MinimumSize = new System.Drawing.Size(798, 392);
+            this.Name = "MrItemRemover2Gui";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mr.ItemRemover2 - Removing items from your bags.";
             this.Load += new System.EventHandler(this.MrItemRemover2GUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Time)).EndInit();
@@ -633,7 +638,7 @@
         private System.Windows.Forms.Button RemoveProtectedItem;
         private System.Windows.Forms.Button AddToBagList;
         private System.Windows.Forms.TextBox InputAddToBagItem;
-        private System.Windows.Forms.CheckBox EnableRemove;
+        public  System.Windows.Forms.CheckBox EnableRemove;
         private System.Windows.Forms.CheckBox EnableSell;
         private System.Windows.Forms.Button RefreshBagItems;
         private System.Windows.Forms.CheckBox SellWhite;
