@@ -67,13 +67,13 @@ namespace MrItemRemover2
         [Setting, DefaultValue(false)]
         public bool LootEnable { get; set; }
 
-        [Setting, DefaultValue(0)]
+        [Setting, DefaultValue(1)]
         public int GoldGrays { get; set; }
 
-        [Setting, DefaultValue(0)]
+        [Setting, DefaultValue(53)]
         public int SilverGrays { get; set; }
 
-        [Setting, DefaultValue(1)]
+        [Setting, DefaultValue(41)]
         public int CopperGrays { get; set; }
     }
 }

@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Honorbuddy">
-      <HintPath>..\..\..\..\..\Desktop\hb 638\Honorbuddy.exe</HintPath>
+      <HintPath>..\..\..\..\Desktop\hb\Honorbuddy.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -46,10 +46,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Tripper.Tools">
-      <HintPath>..\..\..\..\..\Desktop\hb 638\Tripper.Tools.dll</HintPath>
+      <HintPath>..\..\..\..\Desktop\hb\Tripper.Tools.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Lists.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="MrItemRemover2.cs" />
     <Compile Include="MrItemRemover2GUI.cs">
