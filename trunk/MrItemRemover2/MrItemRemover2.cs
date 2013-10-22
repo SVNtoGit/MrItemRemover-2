@@ -27,14 +27,14 @@ namespace MrItemRemover2
     public partial class MrItemRemover2 : HBPlugin
     {
         // ReSharper disable InconsistentNaming
-        const string _name = "Mr.ItemRemover2 1.6";
+        const string _name = "Mr.ItemRemover2 1.6.1";
         const string _debug = "Mr.ItemRemover2 DEBUG";
         // ReSharper restore InconsistentNaming
 
         //Normal Stuff.
         public override string Name { get { return _name; } }
         public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(1, 6); } }
+        public override Version Version { get { return new Version(1, 6, 1); } }
         public override bool WantButton { get { return true; } }
         public override string ButtonText { get { return _name; } }
 
@@ -85,6 +85,18 @@ namespace MrItemRemover2
             _checkTimer.Reset(); //should start the timer 
 
             IsInitialized = true;
+        }
+
+        public override void Dispose()
+        {
+            Lua.Events.DetachEvent("DELETE_ITEM_CONFIRM", DeleteItemConfirmPopup);
+            Lua.Events.DetachEvent("MERCHANT_SHOW", SellVenderItems);
+            Lua.Events.DetachEvent("LOOT_CLOSED", LootEnded);
+
+            IsInitialized = false;
+            MirSave();
+
+            Dlog("MrItemRemover2 is now disabled.");
         }
 
         public bool ManualCheckRequested { get; set; }
