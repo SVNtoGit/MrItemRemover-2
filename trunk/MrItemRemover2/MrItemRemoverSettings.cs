@@ -75,5 +75,14 @@ namespace MrItemRemover2
 
         [Setting, DefaultValue(41)]
         public int CopperGrays { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool CombineItems { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool RSFood { get; set; }
+
+        [Setting, DefaultValue(false)]
+        public bool RSDrinks { get; set; }
     }
 }

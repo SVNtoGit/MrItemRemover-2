@@ -21,7 +21,7 @@ namespace MrItemRemover2
             Controller = controller;
             InitializeComponent();
         }
-
+        
         public MrItemRemover2 Controller { get; private set; }
 
         public static void Slog(string format, params object[] args)
@@ -39,7 +39,6 @@ namespace MrItemRemover2
             var goldImg = new Bitmap(_goldImangePathName);
             GoldBox.Image = goldImg;
             resf.Image = refresh;
-            Controller.MirLoad();
             MrItemRemover2Settings.Instance.Load();
             SellList.Items.Clear();
             RemoveList.Items.Clear();
@@ -54,6 +53,7 @@ namespace MrItemRemover2
             SellGreen.Checked = MrItemRemover2Settings.Instance.SellGreen;
             SellBlue.Checked = MrItemRemover2Settings.Instance.SellBlue;
             SellSoulbound.Checked = MrItemRemover2Settings.Instance.SellSoulbound;
+            CombineItems.Checked = MrItemRemover2Settings.Instance.CombineItems;
             EnableRemove.Checked = MrItemRemover2Settings.Instance.EnableRemove;
             EnableOpen.Checked = MrItemRemover2Settings.Instance.EnableOpen;
             EnableSell.Checked = MrItemRemover2Settings.Instance.EnableSell;
@@ -75,10 +75,6 @@ namespace MrItemRemover2
             {
                 ProtectedList.Items.Add(itm);
             }
-            foreach (string itm in Controller.OpnList)
-            {
-                OpnList.Items.Add(itm);
-            }
 
             foreach (WoWItem bagItem in StyxWoW.Me.BagItems)
             {
@@ -95,18 +91,6 @@ namespace MrItemRemover2
             {
                 MyBag.Items.Add(InputAddToBagItem.Text);
                 Slog("Added {0} to Inventory List", InputAddToBagItem.Text);
-            }
-        }
-
-        private void RefreshBagItems_Click(object sender, EventArgs e)
-        {
-            MyBag.Items.Clear();
-            foreach (WoWItem bagItem in StyxWoW.Me.BagItems)
-            {
-                if (bagItem.BagSlot != -1 && !MyBag.Items.Contains(bagItem.Name))
-                {
-                    MyBag.Items.Add(bagItem.Name);
-                }
             }
         }
 
@@ -270,16 +254,6 @@ namespace MrItemRemover2
             MrItemRemover2Settings.Instance.CopperGrays = int.Parse(CopperGrays.Text);
         }
 
-        private void RemoveOpenItem_Click(object sender, EventArgs e)
-        {
-            if (OpnList.SelectedItem != null)
-            {
-                Slog("{0} Removed", OpnList.SelectedItem.ToString());
-                Controller.OpnList.Remove(OpnList.SelectedItem.ToString());
-                OpnList.Items.Remove(OpnList.SelectedItem);
-            }
-        }
-
         private void EnableOpen_CheckedChanged(object sender, EventArgs e)
         {
             MrItemRemover2Settings.Instance.EnableOpen = EnableOpen.Checked;
@@ -297,15 +271,6 @@ namespace MrItemRemover2
             }
         }
 
-        private void AddToOpnList_Click(object sender, EventArgs e)
-        {
-            if (MyBag.SelectedItems[0] != null)
-            {
-                OpnList.Items.Add(MyBag.SelectedItem);
-                Controller.OpnList.Add(MyBag.SelectedItem.ToString());
-            }
-        }
-
         private void Run_Click(object sender, EventArgs e)
         {
             Controller.ManualCheckRequested = true;
@@ -317,10 +282,6 @@ namespace MrItemRemover2
         }
 
         private void SellList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void OpnList_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
 
@@ -340,6 +301,21 @@ namespace MrItemRemover2
         private void SellSoulbound_CheckedChanged(object sender, EventArgs e)
         {
             MrItemRemover2Settings.Instance.SellSoulbound = SellSoulbound.Checked;
+        }
+
+        private void CombineItems_CheckedChanged(object sender, EventArgs e)
+        {
+            MrItemRemover2Settings.Instance.CombineItems = CombineItems.Checked;
+        }
+
+        private void RSDrinks_CheckedChanged(object sender, EventArgs e)
+        {
+            MrItemRemover2Settings.Instance.RSDrinks = CombineItems.Checked;
+        }
+
+        private void RSFood_CheckedChanged(object sender, EventArgs e)
+        {
+            MrItemRemover2Settings.Instance.RSFood = CombineItems.Checked;
         }
     }
 }
