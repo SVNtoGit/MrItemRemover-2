@@ -52,7 +52,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Lists.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="MrItemRemover2.cs" />
     <Compile Include="MrItemRemover2GUI.cs">
