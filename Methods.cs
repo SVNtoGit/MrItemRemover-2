@@ -119,8 +119,8 @@ namespace MrItemRemover2
             List<WoWItem> itemsToVisit = Me.BagItems.ToList();
             foreach (WoWItem item in itemsToVisit)
             {
-                //Logging.Write("{0} - Consumable = {1}", item.Name, WoWItemClass.Consumable);
-       
+                //Slog("{0} - Stack Count = {1}", item.Name, item.StackCount);
+
                 if (!item.IsValid)
                 {
                     continue;
@@ -213,7 +213,7 @@ namespace MrItemRemover2
                 //Process all White Items if enabled.
                 if (MrItemRemover2Settings.Instance.DeleteAllWhite && item.Quality == WoWItemQuality.Common && !KeepList.Contains(item.Name) && !BagList.Contains(item.Name) && !FoodList.Contains(item.Name) && !DrinkList.Contains(item.Name))
                 {
-                    if (item.BagSlot != -1 && !isQuestItem )
+                    if (item.BagSlot != -1 && !isQuestItem)
                     {
                         Slog("{0}'s Item Quality was Common. Removing.", item.Name);
                         Lua.DoString("ClearCursor()");
@@ -256,10 +256,10 @@ namespace MrItemRemover2
 
             string timeInString = (hour < 10) ? "0" + hour.ToString(CultureInfo.InvariantCulture) : hour.ToString(CultureInfo.InvariantCulture);
             timeInString += ":" + ((min < 10) ? "0" + min.ToString(CultureInfo.InvariantCulture) : min.ToString(CultureInfo.InvariantCulture));
-// ReSharper disable RedundantAssignment
+            // ReSharper disable RedundantAssignment
             return timeInString += ":" + ((sec < 10) ? "0" + sec.ToString(CultureInfo.InvariantCulture) : sec.ToString(CultureInfo.InvariantCulture));
-// ReSharper restore RedundantAssignment
-            }
+            // ReSharper restore RedundantAssignment
+        }
 
         private bool IsQuestItem(WoWItem item)
         {

@@ -27,14 +27,14 @@ namespace MrItemRemover2
     public partial class MrItemRemover2 : HBPlugin
     {
 // ReSharper disable InconsistentNaming
-        const string _name = "Mr.ItemRemover2 2.0";
+        const string _name = "Mr.ItemRemover2 1.7";
         const string _debug = "Mr.Itemremover2 DEBUG";
 // ReSharper restore InconsistentNaming
 
         //Normal Stuff.
         public override string Name { get { return _name; } }
         public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(2,0); } }
+        public override Version Version { get { return new Version(1,7); } }
         public override bool WantButton { get { return true; } }
         public override string ButtonText { get { return _name; } }
         
