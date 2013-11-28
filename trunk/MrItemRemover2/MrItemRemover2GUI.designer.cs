@@ -903,7 +903,7 @@ namespace MrItemRemover2
             this.GoldGrays.BackColor = System.Drawing.Color.Black;
             this.GoldGrays.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.GoldGrays.ForeColor = System.Drawing.Color.White;
-            this.GoldGrays.Location = new System.Drawing.Point(275, 249);
+            this.GoldGrays.Location = new System.Drawing.Point(275, 248);
             this.GoldGrays.MaxLength = 4;
             this.GoldGrays.Name = "GoldGrays";
             this.GoldGrays.Size = new System.Drawing.Size(26, 15);
@@ -925,7 +925,7 @@ namespace MrItemRemover2
             this.CopperGrays.BackColor = System.Drawing.Color.Black;
             this.CopperGrays.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.CopperGrays.ForeColor = System.Drawing.Color.White;
-            this.CopperGrays.Location = new System.Drawing.Point(363, 249);
+            this.CopperGrays.Location = new System.Drawing.Point(363, 248);
             this.CopperGrays.MaxLength = 2;
             this.CopperGrays.Name = "CopperGrays";
             this.CopperGrays.Size = new System.Drawing.Size(18, 15);
@@ -938,7 +938,7 @@ namespace MrItemRemover2
             this.SilverGrays.BackColor = System.Drawing.Color.Black;
             this.SilverGrays.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.SilverGrays.ForeColor = System.Drawing.Color.White;
-            this.SilverGrays.Location = new System.Drawing.Point(325, 249);
+            this.SilverGrays.Location = new System.Drawing.Point(325, 248);
             this.SilverGrays.MaxLength = 2;
             this.SilverGrays.Name = "SilverGrays";
             this.SilverGrays.Size = new System.Drawing.Size(17, 15);

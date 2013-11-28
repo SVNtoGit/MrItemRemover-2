@@ -182,7 +182,7 @@ namespace MrItemRemover2
                     Lua.DoString("UseItemByName(\"" + item.Name + "\")");
                 }
 
-                if (MrItemRemover2Settings.Instance.SellFood == "True")
+                if (MrItemRemover2Settings.Instance.EnableRemove == "True" && MrItemRemover2Settings.Instance.RemoveFood == "True")
                 {
                     if (!KeepList.Contains(item.Name) && FoodList.Contains(item.Name))
                     {
@@ -193,11 +193,11 @@ namespace MrItemRemover2
                     }
                 }
 
-                if (MrItemRemover2Settings.Instance.SellDrinks == "True")
+                if (MrItemRemover2Settings.Instance.EnableRemove == "True" && MrItemRemover2Settings.Instance.RemoveDrinks == "True")
                 {
                     if (!KeepList.Contains(item.Name) && DrinkList.Contains(item.Name))
                     {
-                        Slog("{0} was in the Food List and We want to Remove Food. Removing.", item.Name, item.ItemInfo.SellPrice);
+                        Slog("{0} was in the Drink List and We want to Remove Drinks. Removing.", item.Name, item.ItemInfo.SellPrice);
                         Lua.DoString("ClearCursor()");
                         item.PickUp();
                         Lua.DoString("DeleteCursorItem()");
