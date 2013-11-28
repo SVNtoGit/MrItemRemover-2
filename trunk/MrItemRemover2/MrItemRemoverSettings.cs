@@ -16,56 +16,62 @@ namespace MrItemRemover2
         {
         }
 
-        [Setting, DefaultValue(5)]
-        public int Time { get; set; }
+        [Setting, DefaultValue("False")]
+        public string EnableSell { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool EnableRemove { get; set; }
+        [Setting, DefaultValue("False")]
+        public string EnableRemove { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool EnableOpen { get; set; }
+        [Setting, DefaultValue("False")]
+        public string CombineItems { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool DeleteQuestItems { get; set; }
+        [Setting, DefaultValue("False")]
+        public string EnableOpen { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool EnableSell { get; set; }
+        [Setting, DefaultValue("False")]
+        public string LootCheck { get; set; }
 
-        [Setting, DefaultValue(true)]
-        public bool EnableGray { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellGray { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool SellWhite { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellWhite { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool SellGreen { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellGreen { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool SellBlue { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellBlue { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool SellSoulbound { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellSoulbound { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool SellGray { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellFood { get; set; }
 
-        [Setting, DefaultValue(true)]
-        public bool ApplyAll { get; set; }
+        [Setting, DefaultValue("False")]
+        public string SellDrinks { get; set; }
 
-        [Setting, DefaultValue(true)]
-        public bool DeleteAllGray { get; set; }
+        [Setting, DefaultValue("False")]
+        public string DeleteAllGray { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool DeleteAllWhite { get; set; }
+        [Setting, DefaultValue("False")]
+        public string DeleteAllWhite { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool DeleteAllGreen { get; set; }
+        [Setting, DefaultValue("False")]
+        public string DeleteAllGreen { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool DeleteAllBlue { get; set; }
+        [Setting, DefaultValue("False")]
+        public string DeleteAllBlue { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool LootEnable { get; set; }
+        [Setting, DefaultValue("False")]
+        public string DeleteQuestItems { get; set; }
+
+        [Setting, DefaultValue("False")]
+        public string RemoveFood { get; set; }
+
+        [Setting, DefaultValue("False")]
+        public string RemoveDrinks { get; set; }
 
         [Setting, DefaultValue(1)]
         public int GoldGrays { get; set; }
@@ -76,13 +82,7 @@ namespace MrItemRemover2
         [Setting, DefaultValue(41)]
         public int CopperGrays { get; set; }
 
-        [Setting, DefaultValue(false)]
-        public bool CombineItems { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RSFood { get; set; }
-
-        [Setting, DefaultValue(false)]
-        public bool RSDrinks { get; set; }
+        [Setting, DefaultValue(5)]
+        public int Time { get; set; }
     }
 }
