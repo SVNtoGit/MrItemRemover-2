@@ -351,7 +351,7 @@ namespace MrItemRemover2
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
             this.tabControl1.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabControl1.Location = new System.Drawing.Point(6, 6);
+            this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.tabControl1.SelectedIndex = 0;
@@ -1091,12 +1091,13 @@ namespace MrItemRemover2
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
-            this.ClientSize = new System.Drawing.Size(495, 350);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(484, 336);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.MaximumSize = new System.Drawing.Size(495, 350);
-            this.MinimumSize = new System.Drawing.Size(495, 350);
+            this.MaximumSize = new System.Drawing.Size(500, 375);
+            this.MinimumSize = new System.Drawing.Size(500, 375);
             this.Name = "MrItemRemover2Gui";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Mr.ItemRemover2 - Removing items from your bags.";
