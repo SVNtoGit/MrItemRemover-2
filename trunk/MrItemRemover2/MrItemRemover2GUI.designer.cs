@@ -1098,7 +1098,7 @@ namespace MrItemRemover2
             this.MaximumSize = new System.Drawing.Size(495, 350);
             this.MinimumSize = new System.Drawing.Size(495, 350);
             this.Name = "MrItemRemover2Gui";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Mr.ItemRemover2 - Removing items from your bags.";
             this.Load += new System.EventHandler(this.MrItemRemover2GUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.Time)).EndInit();

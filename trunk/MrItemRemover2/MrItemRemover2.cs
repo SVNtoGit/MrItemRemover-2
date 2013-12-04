@@ -240,6 +240,7 @@ namespace MrItemRemover2
         {
             if (ItemName.Count != 0)
             {
+                PrintSettings();
                 Slog("Saving All Lists.");
                 WriteList(ItemName, _removeListPath);
                 WriteList(ItemNameSell, _sellListPath);
