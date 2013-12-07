@@ -168,7 +168,6 @@ namespace MrItemRemover2
         public List<string> KeepList = new List<string>();
         public List<string> OpnList = new List<string>();
         public List<string> BagList = new List<string>();
-        public List<string> CombineList1 = new List<string>();
         public List<string> Combine3List = new List<string>();
         public List<string> Combine5List = new List<string>();
         public List<string> Combine10List = new List<string>();
@@ -187,8 +186,6 @@ namespace MrItemRemover2
                                            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameOpnList.txt"));
         private readonly string _bagListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameBagList.txt"));
-        private readonly string _combineList1Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList1.txt"));
         private readonly string _combineList3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                                            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine3List.txt"));
         private readonly string _combineList5Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
@@ -207,7 +204,6 @@ namespace MrItemRemover2
             LoadList(KeepList, _keepListPath);
             LoadList(OpnList, _opnListPath);
             LoadList(BagList, _bagListPath);
-            LoadList(CombineList1, _combineList1Path);
             LoadList(Combine3List, _combineList3Path);
             LoadList(Combine5List, _combineList5Path);
             LoadList(Combine10List, _combineList10Path);
