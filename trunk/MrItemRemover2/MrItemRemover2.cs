@@ -4,7 +4,7 @@
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.0 for WoW Version 5.4.1 +
+ * Version 2.1 for WoW Version 5.4.1 +
  */
 
 using System.Globalization;
@@ -25,14 +25,14 @@ namespace MrItemRemover2
     public partial class MrItemRemover2 : HBPlugin
     {
         // ReSharper disable InconsistentNaming
-        const string _name = "MIR2 2.0";
+        const string _name = "MIR2 2.1";
         const string _debug = "Mr.Itemremover2 DEBUG";
         // ReSharper restore InconsistentNaming
 
         //Normal Stuff.
         public override string Name { get { return _name; } }
         public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(2, 0); } }
+        public override Version Version { get { return new Version(2, 1); } }
         public override bool WantButton { get { return true; } }
         public override string ButtonText { get { return "MIR2 Settings"; } }
 

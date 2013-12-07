@@ -130,6 +130,7 @@ namespace MrItemRemover2
                 Dlog(string.Format("{0} - {1}", key, value));
             }
             Dlog("------------------------------------------");
+            Dlog(" ");
         }
 
         public void CheckForItems()
@@ -143,8 +144,6 @@ namespace MrItemRemover2
             List<WoWItem> itemsToVisit = Me.BagItems.ToList();
             foreach (WoWItem item in itemsToVisit)
             {
-                //Slog("{0} - Stack Count = {1}", item.Name, item.StackCount);
-
                 if (!item.IsValid)
                 {
                     continue;
@@ -158,7 +157,7 @@ namespace MrItemRemover2
                     return;
                 }
 
-                if (CombineList1.Contains(item.Name) && item.StackCount == 1)
+                if (OpnList.Contains(item.Name) && item.StackCount == 1 && MrItemRemover2Settings.Instance.EnableOpen == "True")
                 {
                     Slog("{0} can be used/opened. Using/Opening.", item.Name);
                     Lua.DoString("UseItemByName(\"" + item.Name + "\")");
