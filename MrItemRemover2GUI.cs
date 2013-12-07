@@ -42,7 +42,6 @@ namespace MrItemRemover2
             MrItemRemover2Settings.Instance.Load();
             SellDropDown.SelectedItem = MrItemRemover2Settings.Instance.EnableSell;
             RemoveDropDown.SelectedItem = MrItemRemover2Settings.Instance.EnableRemove;
-            CombineDropDown.SelectedItem = MrItemRemover2Settings.Instance.CombineItems;
             OpeningDropDown.SelectedItem = MrItemRemover2Settings.Instance.EnableOpen;
             SellGraysDropDown.SelectedItem = MrItemRemover2Settings.Instance.SellGray;
             SellWhitesDropDown.SelectedItem = MrItemRemover2Settings.Instance.SellWhite;
@@ -220,19 +219,12 @@ namespace MrItemRemover2
 
         private void SellDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             MrItemRemover2Settings.Instance.EnableSell = SellDropDown.SelectedItem.ToString();
         }
 
         private void RemoveDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             MrItemRemover2Settings.Instance.EnableRemove = RemoveDropDown.SelectedItem.ToString();
-        }
-
-        private void CombineDropDown_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MrItemRemover2Settings.Instance.CombineItems = CombineDropDown.SelectedItem.ToString();
         }
 
         private void OpeningDropDown_SelectedIndexChanged(object sender, EventArgs e)
