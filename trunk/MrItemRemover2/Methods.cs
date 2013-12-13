@@ -157,7 +157,7 @@ namespace MrItemRemover2
                     return;
                 }
 
-                if (OpnList.Contains(item.Name) && item.StackCount == 1 && MrItemRemover2Settings.Instance.EnableOpen == "True")
+                if (OpnList.Contains(item.Name) && item.IsOpenable && MrItemRemover2Settings.Instance.EnableOpen == "True")
                 {
                     Slog("{0} can be used/opened. Using/Opening.", item.Name);
                     Lua.DoString("UseItemByName(\"" + item.Name + "\")");
