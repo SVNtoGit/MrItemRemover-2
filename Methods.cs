@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Bots.Quest.Objectives;
 using Styx;
 using Styx.CommonBot.Frames;
 using Styx.Helpers;
@@ -14,7 +15,7 @@ namespace MrItemRemover2
     {
         public void SellVenderItems(object sender, LuaEventArgs args)
         {
-            if (MerchantFrame.Instance.IsVisible && MrItemRemover2Settings.Instance.EnableSell == "True")
+            if (MerchantFrame.Instance.IsVisible && IsInitialized && MrItemRemover2Settings.Instance.EnableSell == "True")
             {
                 foreach (WoWItem item in Me.BagItems)
                 {
