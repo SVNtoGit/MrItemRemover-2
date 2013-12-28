@@ -74,11 +74,6 @@ namespace MrItemRemover2
         public List<string> KeepList = new List<string>();
         public List<string> OpnList = new List<string>();
 
-        public MrItemRemover2(MrItemRemover2 controller)
-        {
-            Controller = controller;
-        }
-
         // ReSharper restore InconsistentNaming
 
         //Normal Stuff.
@@ -169,7 +164,6 @@ namespace MrItemRemover2
             IsInitialized = true;
         }
 
-        [Obsolete("Use OnDisable instead")]
         public override void OnDisable()
         {
             Lua.Events.DetachEvent("DELETE_ITEM_CONFIRM", DeleteItemConfirmPopup);
