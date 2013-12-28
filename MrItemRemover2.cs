@@ -152,7 +152,7 @@ namespace MrItemRemover2
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
 
         //My Crappy Initalise.
-        public override void Initialize()
+        public override void OnEnable()
         {
             Lua.Events.AttachEvent("DELETE_ITEM_CONFIRM", DeleteItemConfirmPopup);
             Lua.Events.AttachEvent("MERCHANT_SHOW", SellVenderItems);
@@ -169,7 +169,8 @@ namespace MrItemRemover2
             IsInitialized = true;
         }
 
-        public override void Dispose()
+        [Obsolete("Use OnDisable instead")]
+        public override void OnDisable()
         {
             Lua.Events.DetachEvent("DELETE_ITEM_CONFIRM", DeleteItemConfirmPopup);
             Lua.Events.DetachEvent("MERCHANT_SHOW", SellVenderItems);
