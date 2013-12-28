@@ -12,7 +12,7 @@ namespace MrItemRemover2
         private MrItemRemover2Settings()
             : base(
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Settings/MrItemRemover2_Settings_{0}.xml",
-                             StyxWoW.Me.Name))
+                    StyxWoW.Me.Name))
         {
         }
 

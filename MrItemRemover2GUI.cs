@@ -11,10 +11,10 @@ namespace MrItemRemover2
     public partial class MrItemRemover2Gui : Form
     {
         private readonly string _goldImangePathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                                                  string.Format(@"Plugins/MrItemRemover2/Gold2.bmp"));
+            string.Format(@"Plugins/MrItemRemover2/Gold2.bmp"));
 
         private readonly string _refreshImangePathName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                                                  string.Format(@"Plugins/MrItemRemover2/ref.bmp"));
+            string.Format(@"Plugins/MrItemRemover2/ref.bmp"));
 
         public MrItemRemover2Gui(MrItemRemover2 controller)
         {
@@ -28,6 +28,7 @@ namespace MrItemRemover2
         {
             MrItemRemover2.Slog(format, args);
         }
+
         public static void Dlog(string format, params object[] args)
         {
             MrItemRemover2.Dlog(format, args);
@@ -176,8 +177,8 @@ namespace MrItemRemover2
             Dlog("------------------------------------------");
             foreach (var setting in MrItemRemover2Settings.Instance.GetSettings())
             {
-                var key = setting.Key;
-                var value = setting.Value;
+                string key = setting.Key;
+                object value = setting.Value;
                 Dlog(string.Format("{0} - {1}", key, value));
             }
             Dlog("------------------------------------------");

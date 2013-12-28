@@ -1,40 +1,121 @@
 ﻿/*
  * Mr.ItemRemover2 - Created by CodenameGamma - 1-31-11 - For WoW Version 4.0.3
- * 2.0 Update by Bambam922
+ * 2.2 Update by Bambam922
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.1 for WoW Version 5.4.1 +
+ * Version 2.2 for WoW Version 5.4.2 +
  */
 
-using System.Globalization;
-using System.Windows.Forms;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Windows.Forms;
+using System.Windows.Media;
+using Styx;
+using Styx.Common;
+using Styx.Common.Helpers;
+using Styx.Plugins;
 using Styx.WoWInternals;
 using Styx.WoWInternals.WoWObjects;
-using System.IO;
-using Styx.Plugins;
-using Styx;
-using Styx.Common.Helpers;
-using Styx.Common;
-using System.Collections.Generic;
-using System.Windows.Media;
 
 namespace MrItemRemover2
 {
     public partial class MrItemRemover2 : HBPlugin
     {
         // ReSharper disable InconsistentNaming
-        const string _name = "MIR2 2.1";
-        const string _debug = "Mr.Itemremover2 DEBUG";
+        private const string _name = "MIR2 2.2";
+        private const string _debug = "Mr.Itemremover2 DEBUG";
+
+        private readonly string _bagListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameBagList.txt"));
+
+        private readonly WaitTimer _checkTimer =
+            new WaitTimer(TimeSpan.FromMinutes(MrItemRemover2Settings.Instance.Time));
+
+        private readonly string _combineList10Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine10List.txt"));
+
+        private readonly string _combineList3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine3List.txt"));
+
+        private readonly string _combineList5Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine5List.txt"));
+
+        private readonly string _drinkListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameDrinkList.txt"));
+
+        private readonly string _foodListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameFoodList.txt"));
+
+        private readonly string _keepListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameKeepList.txt"));
+
+        private readonly string _opnListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameOpnList.txt"));
+
+        private readonly string _removeListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameRemoveList.txt"));
+
+        private readonly string _sellListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameSellList.txt"));
+
+        public List<string> BagList = new List<string>();
+        public List<string> Combine10List = new List<string>();
+        public List<string> Combine3List = new List<string>();
+        public List<string> Combine5List = new List<string>();
+        public List<string> DrinkList = new List<string>();
+        public List<string> FoodList = new List<string>();
+        public List<string> InventoryList = new List<string>();
+        public List<string> ItemName = new List<string>();
+        //Specific items from the TXT Doc are loaded here.
+        public List<string> ItemNameSell = new List<string>();
+        public List<string> KeepList = new List<string>();
+        public List<string> OpnList = new List<string>();
+
+        public MrItemRemover2(MrItemRemover2 controller)
+        {
+            Controller = controller;
+        }
+
         // ReSharper restore InconsistentNaming
 
         //Normal Stuff.
-        public override string Name { get { return _name; } }
-        public override string Author { get { return "CnG & Bambam922"; } }
-        public override Version Version { get { return new Version(2, 1); } }
-        public override bool WantButton { get { return true; } }
-        public override string ButtonText { get { return "MIR2 Settings"; } }
+        public override string Name
+        {
+            get { return _name; }
+        }
+
+        public override string Author
+        {
+            get { return "CnG & Bambam922"; }
+        }
+
+        public override Version Version
+        {
+            get { return new Version(2, 1); }
+        }
+
+        public override bool WantButton
+        {
+            get { return true; }
+        }
+
+        public override string ButtonText
+        {
+            get { return "MIR2 Settings"; }
+        }
+
+        public MrItemRemover2 Controller { get; private set; }
+        public bool ManualCheckRequested { get; set; }
+        private bool EnableCheck { get; set; }
+        private bool IsInitialized { get; set; }
+
+        private static LocalPlayer Me
+        {
+            get { return StyxWoW.Me; }
+        }
 
         public override void OnButtonPress()
         {
@@ -69,7 +150,6 @@ namespace MrItemRemover2
         }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Local
-        public MrItemRemover2 Controller { get; private set; }
 
         //My Crappy Initalise.
         public override void Initialize()
@@ -101,13 +181,6 @@ namespace MrItemRemover2
             Dlog("MrItemRemover2 is now disabled.");
         }
 
-        public bool ManualCheckRequested { get; set; }
-
-        private readonly WaitTimer _checkTimer = new WaitTimer(TimeSpan.FromMinutes(MrItemRemover2Settings.Instance.Time));
-        private bool EnableCheck { get; set; }
-        private bool IsInitialized { get; set; }
-        private static LocalPlayer Me { get { return StyxWoW.Me; } }
-
         public override void Pulse()
         {
             if (ManualCheckRequested)
@@ -130,7 +203,9 @@ namespace MrItemRemover2
                         _checkTimer.Reset();
 
                         Slog("Enabling Check at {0}", GetTime(DateTime.Now));
-                        Dlog("Checktimer has Finished its Total wait of {0} Minutes, Enabling Item Check for next Opportunity", MrItemRemover2Settings.Instance.Time.ToString(CultureInfo.InvariantCulture));
+                        Dlog(
+                            "Checktimer has Finished its Total wait of {0} Minutes, Enabling Item Check for next Opportunity",
+                            MrItemRemover2Settings.Instance.Time.ToString(CultureInfo.InvariantCulture));
                         Slog("Will Run Next Check At {0}", GetTime(_checkTimer.EndTime));
                     }
                 }
@@ -161,41 +236,7 @@ namespace MrItemRemover2
         }
 
         //All items from the TXT Doc are loaded here.
-        public List<string> ItemName = new List<string>();
-        //Specific items from the TXT Doc are loaded here.
-        public List<string> ItemNameSell = new List<string>();
-        public List<string> InventoryList = new List<string>();
-        public List<string> KeepList = new List<string>();
-        public List<string> OpnList = new List<string>();
-        public List<string> BagList = new List<string>();
-        public List<string> Combine3List = new List<string>();
-        public List<string> Combine5List = new List<string>();
-        public List<string> Combine10List = new List<string>();
-        public List<string> FoodList = new List<string>();
-        public List<string> DrinkList = new List<string>();
 
-
-        //file Path for Saving and Loading. 
-        private readonly string _removeListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameRemoveList.txt"));
-        private readonly string _sellListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameSellList.txt"));
-        private readonly string _keepListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameKeepList.txt"));
-        private readonly string _opnListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameOpnList.txt"));
-        private readonly string _bagListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameBagList.txt"));
-        private readonly string _combineList3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine3List.txt"));
-        private readonly string _combineList5Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine5List.txt"));
-        private readonly string _combineList10Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine10List.txt"));
-        private readonly string _foodListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameFoodList.txt"));
-        private readonly string _drinkListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                           string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameDrinkList.txt"));
         public void InitialMirLoad()
         {
             Slog("Initial Loading of Individual Item Lists.");
@@ -254,7 +295,7 @@ namespace MrItemRemover2
                     var write = new StreamWriter(filePath);
                     // ReSharper disable ForCanBeConvertedToForeach
                     for (int I = 0; I < listName.Count; I++)
-                    // ReSharper restore ForCanBeConvertedToForeach
+                        // ReSharper restore ForCanBeConvertedToForeach
                     {
                         write.WriteLine(Convert.ToString(listName[I]));
                     }
@@ -268,4 +309,3 @@ namespace MrItemRemover2
         }
     }
 }
-
