@@ -5,6 +5,11 @@ Mote of Life
 Mote of Mana
 Mote of Shadow
 Mote of Water
+Volatile Air
+Volatile Earth
+Volatile Fire
+Volatile Life
+Volatile Water
 Crystallized Air
 Crystallized Earth
 Crystallized Fire
