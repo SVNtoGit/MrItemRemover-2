@@ -89,7 +89,7 @@ namespace MrItemRemover2
 
         public override Version Version
         {
-            get { return new Version(2, 1); }
+            get { return new Version(2, 2); }
         }
 
         public override bool WantButton
