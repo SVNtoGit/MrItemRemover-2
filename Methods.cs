@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using Styx;
+using Styx.CommonBot;
 using Styx.CommonBot.Frames;
 using Styx.Helpers;
 using Styx.WoWInternals;
@@ -54,15 +56,16 @@ namespace MrItemRemover2
                                 Slog("Item Matched List Selling {0}", item.Name);
                                 item.UseContainerItem();
                             }
+
                             if (item.Quality == WoWItemQuality.Common && FoodList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellFood == "True")
+                                MrItemRemover2Settings.Instance.SellFood == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Food List {0}", item.Name);
                                 item.UseContainerItem();
                             }
 
                             if (item.Quality == WoWItemQuality.Common && DrinkList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellDrinks == "True")
+                                MrItemRemover2Settings.Instance.SellDrinks == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Food List {0}", item.Name);
                                 item.UseContainerItem();
@@ -106,14 +109,14 @@ namespace MrItemRemover2
                             }
 
                             if (item.Quality == WoWItemQuality.Common && FoodList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellFood == "True")
+                                MrItemRemover2Settings.Instance.SellFood == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Food List {0}", item.Name);
                                 item.UseContainerItem();
                             }
 
                             if (item.Quality == WoWItemQuality.Common && DrinkList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellDrinks == "True")
+                                MrItemRemover2Settings.Instance.SellDrinks == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Drink List {0}", item.Name);
                                 item.UseContainerItem();
@@ -158,6 +161,13 @@ namespace MrItemRemover2
             // NB: Since we will be modifying the Me.BagItems list indirectly through WoWclient directives,
             // we can't use it as our iterator--we must make a copy, instead.
             List<WoWItem> itemsToVisit = Me.BagItems.ToList();
+
+            var groups = itemsToVisit.GroupBy(v => v);
+            foreach (var group in groups)
+            {
+                Dlog("Value {0} has {1} items", group.Key, group.Count());
+            }
+
             foreach (WoWItem item in itemsToVisit)
             {
                 if (!item.IsValid)
@@ -173,29 +183,52 @@ namespace MrItemRemover2
                     return;
                 }
 
+                
+
                 if (OpnList.Contains(item.Name) && item.IsOpenable &&
                     MrItemRemover2Settings.Instance.EnableOpen == "True")
                 {
-                    Slog("{0} can be used/opened. Using/Opening.", item.Name);
+                    Slog("{0} can be opened. Opening.", item.Name);
+                    Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                }
+
+                if (OpnList.Contains(item.Name) && item.StackCount == 1)
+                {
+                    Slog("{0} can be combined, so we're combining it.", item.Name);
                     Lua.DoString("UseItemByName(\"" + item.Name + "\")");
                 }
 
                 if (Combine3List.Contains(item.Name) && item.StackCount >= 3)
                 {
-                    Slog("{0} can be combined, so we're combining it.", item.Name);
-                    Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                    uint timesToUse = (uint)(Math.Floor((double)(item.StackCount / 3)));
+                    Slog("{0} can be combined {1} times, so we're combining it.", item.Name, timesToUse);
+                    for (uint timesUsed = 0; timesUsed < timesToUse; timesUsed++)
+                    {
+                        Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                        Thread.Sleep(SpellManager.GlobalCooldownLeft);
+                    }
                 }
 
                 if (Combine5List.Contains(item.Name) && item.StackCount >= 5)
                 {
-                    Slog("{0} can be combined, so we're combining it.", item.Name);
-                    Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                    uint timesToUse = (uint)(Math.Floor((double)(item.StackCount / 5)));
+                    Slog("{0} can be combined {1} times, so we're combining it.", item.Name, timesToUse);
+                    for (uint timesUsed = 0; timesUsed < timesToUse; timesUsed++)
+                    {
+                        Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                        Thread.Sleep(SpellManager.GlobalCooldownLeft);
+                    }
                 }
 
                 if (Combine10List.Contains(item.Name) && item.StackCount >= 10)
                 {
-                    Slog("{0} can be combined, so we're combining it.", item.Name);
-                    Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                    uint timesToUse = (uint)(Math.Floor((double)(item.StackCount / 10)));
+                    Slog("{0} can be combined {1} times, so we're combining it.", item.Name, timesToUse);
+                    for (uint timesUsed = 0; timesUsed < timesToUse; timesUsed++)
+                    {
+                        Lua.DoString("UseItemByName(\"" + item.Name + "\")");
+                        Thread.Sleep(SpellManager.GlobalCooldownLeft);
+                    }
                 }
 
                 if (MrItemRemover2Settings.Instance.EnableRemove == "True" &&
@@ -203,8 +236,7 @@ namespace MrItemRemover2
                 {
                     if (!KeepList.Contains(item.Name) && FoodList.Contains(item.Name))
                     {
-                        Slog("{0} was in the Food List and We want to Remove Food. Removing.", item.Name,
-                            item.ItemInfo.SellPrice);
+                        Slog("{0} was in the Food List and We want to Remove Food. Removing.", item.Name);
                         Lua.DoString("ClearCursor()");
                         item.PickUp();
                         Lua.DoString("DeleteCursorItem()");
@@ -216,8 +248,7 @@ namespace MrItemRemover2
                 {
                     if (!KeepList.Contains(item.Name) && DrinkList.Contains(item.Name))
                     {
-                        Slog("{0} was in the Drink List and We want to Remove Drinks. Removing.", item.Name,
-                            item.ItemInfo.SellPrice);
+                        Slog("{0} was in the Drink List and We want to Remove Drinks. Removing.", item.Name);
                         Lua.DoString("ClearCursor()");
                         item.PickUp();
                         Lua.DoString("DeleteCursorItem()");
@@ -243,72 +274,46 @@ namespace MrItemRemover2
                     Lua.DoString("DeleteCursorItem()");
                 }
 
-                //Process all Gray Items if enabled. 
-                if (MrItemRemover2Settings.Instance.DeleteAllGray == "True" && item.Quality == WoWItemQuality.Poor)
+                string goldString =
+                    MrItemRemover2Settings.Instance.GoldGrays.ToString(CultureInfo.InvariantCulture);
+                int goldValue = goldString.ToInt32()*10000;
+                string silverString =
+                    MrItemRemover2Settings.Instance.SilverGrays.ToString(CultureInfo.InvariantCulture);
+                int silverValue = silverString.ToInt32()*100;
+                string copperString =
+                    MrItemRemover2Settings.Instance.CopperGrays.ToString(CultureInfo.InvariantCulture);
+                int copperValue = copperString.ToInt32();
+
+                if (((MrItemRemover2Settings.Instance.DeleteAllGray == "True" && item.Quality == WoWItemQuality.Poor && item.ItemInfo.SellPrice <= (goldValue + silverValue + copperValue)) ||
+                     (MrItemRemover2Settings.Instance.DeleteAllWhite == "True" && item.Quality == WoWItemQuality.Common) ||
+                     (MrItemRemover2Settings.Instance.DeleteAllGreen == "True" && item.Quality == WoWItemQuality.Uncommon) ||
+                     (MrItemRemover2Settings.Instance.DeleteAllBlue == "True" && item.Quality == WoWItemQuality.Rare)) &&
+                     (item.BagSlot != -1 && !isQuestItem && !KeepList.Contains(item.Name) && !BagList.Contains(item.Name) &&
+                     (ItemName.Contains(item.Name))))
                 {
-                    //Gold Format, goes in GXX SXX CXX 
-                    string goldString = MrItemRemover2Settings.Instance.GoldGrays.ToString(CultureInfo.InvariantCulture);
-                    int goldValue = goldString.ToInt32()*10000;
-                    string silverString =
-                        MrItemRemover2Settings.Instance.SilverGrays.ToString(CultureInfo.InvariantCulture);
-                    int silverValue = silverString.ToInt32()*100;
-                    string copperString =
-                        MrItemRemover2Settings.Instance.CopperGrays.ToString(CultureInfo.InvariantCulture);
-                    int copperValue = copperString.ToInt32();
-
-                    //slog("Value of input sell string - " + (goldValue + silverValue + copperValue));
-
-                    if (item.BagSlot != -1 && !isQuestItem &&
-                        item.ItemInfo.SellPrice <= (goldValue + silverValue + copperValue) &&
-                        !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
+                    switch (item.Quality)
                     {
-                        Slog("{0}'s Item Quality was Poor and only worth {1} copper. Removing.", item.Name,
-                            item.ItemInfo.SellPrice);
-                        Lua.DoString("ClearCursor()");
-                        item.PickUp();
-                        Lua.DoString("DeleteCursorItem()");
+                        case WoWItemQuality.Poor:
+                            Slog("{0}'s Item Quality was {1} and only worth {2} copper. Removing.", item.Name,
+                                WoWItemQuality.Poor, item.ItemInfo.SellPrice);
+                            break;
+                        case WoWItemQuality.Common:
+                            Slog("{0}'s Item Quality was {1}. Removing.", item.Name, WoWItemQuality.Common);
+                            break;
+                        case WoWItemQuality.Uncommon:
+                            Slog("{0}'s Item Quality was {1}. Removing.", item.Name, WoWItemQuality.Uncommon);
+                            break;
+                        case WoWItemQuality.Rare:
+                            Slog("{0}'s Item Quality was {1}. Removing.", item.Name, WoWItemQuality.Rare);
+                            break;
                     }
+
+                    Lua.DoString("ClearCursor()");
+                    item.PickUp();
+                    Lua.DoString("DeleteCursorItem()");
                 }
 
-                //Process all White Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllWhite == "True" && item.Quality == WoWItemQuality.Common)
-                {
-                    if (item.BagSlot != -1 && !isQuestItem && !KeepList.Contains(item.Name) &&
-                        !BagList.Contains(item.Name) && !FoodList.Contains(item.Name) &&
-                        !DrinkList.Contains(item.Name))
-                    {
-                        Slog("{0}'s Item Quality was Common. Removing.", item.Name);
-                        Lua.DoString("ClearCursor()");
-                        item.PickUp();
-                        Lua.DoString("DeleteCursorItem()");
-                    }
-                }
-
-                //Process all Green Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllGreen == "True" && item.Quality == WoWItemQuality.Uncommon)
-                {
-                    if (item.BagSlot != -1 && !isQuestItem &&
-                        !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
-                    {
-                        Slog("{0}'s Item Quality was Uncommon. Removing.", item.Name);
-                        Lua.DoString("ClearCursor()");
-                        item.PickUp();
-                        Lua.DoString("DeleteCursorItem()");
-                    }
-                }
-
-                //Process all Blue Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllBlue == "True" && item.Quality == WoWItemQuality.Rare)
-                {
-                    if (item.BagSlot != -1 && !isQuestItem &&
-                        !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
-                    {
-                        Slog("{0}'s Item Quality was Rare. Removing.", item.Name);
-                        Lua.DoString("ClearCursor()");
-                        item.PickUp();
-                        Lua.DoString("DeleteCursorItem()");
-                    }
-                }
+                 
             }
         }
 
@@ -325,14 +330,12 @@ namespace MrItemRemover2
                             ((min < 10)
                                 ? "0" + min.ToString(CultureInfo.InvariantCulture)
                                 : min.ToString(CultureInfo.InvariantCulture));
-            // ReSharper disable RedundantAssignment
+            
             return
-                timeInString +=
-                    ":" +
-                    ((sec < 10)
-                        ? "0" + sec.ToString(CultureInfo.InvariantCulture)
-                        : sec.ToString(CultureInfo.InvariantCulture));
-            // ReSharper restore RedundantAssignment
+                timeInString + (":" +
+                                ((sec < 10)
+                                    ? "0" + sec.ToString(CultureInfo.InvariantCulture)
+                                    : sec.ToString(CultureInfo.InvariantCulture)));
         }
 
         private bool IsQuestItem(WoWItem item)

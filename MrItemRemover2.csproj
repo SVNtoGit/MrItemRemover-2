@@ -61,12 +61,14 @@
       <DependentUpon>MrItemRemover2GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="MrItemRemoverSettings.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MrItemRemover2GUI.resx">
       <DependentUpon>MrItemRemover2GUI.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
