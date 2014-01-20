@@ -1,10 +1,10 @@
 ﻿/*
  * Mr.ItemRemover2 - Created by CodenameGamma - 1-31-11 - For WoW Version 4.0.3
- * 2.2 Update by Bambam922
+ * 2.3 Update by Bambam922
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.2 for WoW Version 5.4.2 +
+ * Version 2.3 for WoW Version 5.4.2 +
  */
 
 using System;
@@ -25,23 +25,23 @@ namespace MrItemRemover2
     public partial class MrItemRemover2 : HBPlugin
     {
         // ReSharper disable InconsistentNaming
-        private const string _name = "MIR2 2.2";
-        private const string _debug = "Mr.Itemremover2 DEBUG";
+        private const string _name = "MIR2";
+        private const string _debug = "MIR2 DEBUG";
+
+        private readonly WaitTimer _checkTimer =
+        new WaitTimer(TimeSpan.FromMinutes(MrItemRemover2Settings.Instance.Time));
 
         private readonly string _bagListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameBagList.txt"));
 
-        private readonly WaitTimer _checkTimer =
-            new WaitTimer(TimeSpan.FromMinutes(MrItemRemover2Settings.Instance.Time));
-
         private readonly string _combineList10Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine10List.txt"));
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList10.txt"));
 
         private readonly string _combineList3Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine3List.txt"));
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList3.txt"));
 
         private readonly string _combineList5Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombine5List.txt"));
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList3.txt"));
 
         private readonly string _drinkListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameDrinkList.txt"));
@@ -89,7 +89,7 @@ namespace MrItemRemover2
 
         public override Version Version
         {
-            get { return new Version(2, 2); }
+            get { return new Version(2, 3); }
         }
 
         public override bool WantButton
@@ -119,7 +119,6 @@ namespace MrItemRemover2
                 Slog("Not finished initializing");
                 return;
             }
-
             var form = new MrItemRemover2Gui(this);
             form.ShowDialog();
         }
@@ -144,9 +143,6 @@ namespace MrItemRemover2
             Logging.WriteDiagnostic(color, "[" + _debug + "]: " + format, args);
         }
 
-        // ReSharper disable once UnusedAutoPropertyAccessor.Local
-
-        //My Crappy Initalise.
         public override void OnEnable()
         {
             Lua.Events.AttachEvent("DELETE_ITEM_CONFIRM", DeleteItemConfirmPopup);
@@ -154,7 +150,7 @@ namespace MrItemRemover2
             Lua.Events.AttachEvent("LOOT_CLOSED", LootEnded);
             Lua.DoString("SetCVar('AutoLootDefault','1')");
 
-            Slog("Initial Loading of Item names.");
+            Slog("THIS IS A MIR2 DEV COPY. USE AT YOUR OWN RISK.");
             InitialMirLoad();
             MrItemRemover2Settings.Instance.Load();
             PrintSettings();
@@ -173,7 +169,7 @@ namespace MrItemRemover2
             IsInitialized = false;
             MirSave();
 
-            Dlog("MrItemRemover2 is now disabled.");
+            Dlog("MIRDEV is now disabled.");
         }
 
         public override void Pulse()
@@ -184,8 +180,8 @@ namespace MrItemRemover2
                 ManualCheckRequested = false;
                 _checkTimer.Reset();
 
-                Slog("Checking Bags Manually & Reloading Item Lists.");
-                CheckForItems();
+                Slog("Checking Bags Manually.");
+                CheckForItems(); 
             }
 
             else if (MrItemRemover2Settings.Instance.LootCheck == "False")
@@ -194,14 +190,18 @@ namespace MrItemRemover2
                 {
                     if (EnableCheck == false)
                     {
-                        EnableCheck = true;
-                        _checkTimer.Reset();
+                        if (!Me.Mounted)
+                        {
+                            EnableCheck = true;
+                            CheckForItems();
+                            _checkTimer.Reset();
 
-                        Slog("Enabling Check at {0}", GetTime(DateTime.Now));
-                        Dlog(
-                            "Checktimer has Finished its Total wait of {0} Minutes, Enabling Item Check for next Opportunity",
-                            MrItemRemover2Settings.Instance.Time.ToString(CultureInfo.InvariantCulture));
-                        Slog("Will Run Next Check At {0}", GetTime(_checkTimer.EndTime));
+                            Slog("Enabling Check at {0}", GetTime(DateTime.Now));
+                            Dlog(
+                                "Checktimer has Finished its Total wait of {0} Minutes. Checking Items and Enabling Item Check for next Opportunity",
+                                MrItemRemover2Settings.Instance.Time.ToString(CultureInfo.InvariantCulture));
+                            Slog("Will Run Next Check At {0}", GetTime(_checkTimer.EndTime));
+                        }
                     }
                 }
             }
@@ -229,8 +229,6 @@ namespace MrItemRemover2
                 }
             }
         }
-
-        //All items from the TXT Doc are loaded here.
 
         public void InitialMirLoad()
         {

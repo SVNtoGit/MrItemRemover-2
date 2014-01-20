@@ -63,6 +63,8 @@ namespace MrItemRemover2
             SilverGrays.Text = MrItemRemover2Settings.Instance.SilverGrays.ToString(CultureInfo.InvariantCulture);
             CopperGrays.Text = MrItemRemover2Settings.Instance.CopperGrays.ToString(CultureInfo.InvariantCulture);
             Time.Value = MrItemRemover2Settings.Instance.Time;
+            ReqRefLvl.Value = MrItemRemover2Settings.Instance.ReqRefLvl;
+
             foreach (string itm in Controller.ItemName)
             {
                 RemoveList.Items.Add(itm);
@@ -195,6 +197,11 @@ namespace MrItemRemover2
         private void Time_ValueChanged(object sender, EventArgs e)
         {
             MrItemRemover2Settings.Instance.Time = int.Parse(Time.Value.ToString(CultureInfo.InvariantCulture));
+        }
+
+        private void ReqRefLvl_ValueChanged(object sender, EventArgs e)
+        {
+            MrItemRemover2Settings.Instance.ReqRefLvl = int.Parse(ReqRefLvl.Value.ToString(CultureInfo.InvariantCulture));
         }
 
         private void resf_Click(object sender, EventArgs e)

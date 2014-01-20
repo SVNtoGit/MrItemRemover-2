@@ -84,5 +84,8 @@ namespace MrItemRemover2
 
         [Setting, DefaultValue(5)]
         public int Time { get; set; }
+
+        [Setting, DefaultValue(0)]
+        public int ReqRefLvl { get; set; }
     }
 }
