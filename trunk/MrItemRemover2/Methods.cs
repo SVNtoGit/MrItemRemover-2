@@ -58,14 +58,14 @@ namespace MrItemRemover2
                             }
 
                             if (item.Quality == WoWItemQuality.Common && FoodList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellFood == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
+                                MrItemRemover2Settings.Instance.SellFood == "True" && item.ItemInfo.RequiredLevel <= MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Food List {0}", item.Name);
                                 item.UseContainerItem();
                             }
 
                             if (item.Quality == WoWItemQuality.Common && DrinkList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellDrinks == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
+                                MrItemRemover2Settings.Instance.SellDrinks == "True" && item.ItemInfo.RequiredLevel <= MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Food List {0}", item.Name);
                                 item.UseContainerItem();
@@ -109,14 +109,14 @@ namespace MrItemRemover2
                             }
 
                             if (item.Quality == WoWItemQuality.Common && FoodList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellFood == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
+                                MrItemRemover2Settings.Instance.SellFood == "True" && item.ItemInfo.RequiredLevel <= MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Food List {0}", item.Name);
                                 item.UseContainerItem();
                             }
 
                             if (item.Quality == WoWItemQuality.Common && DrinkList.Contains(item.Name) &&
-                                MrItemRemover2Settings.Instance.SellDrinks == "True" && item.ItemInfo.RequiredLevel < MrItemRemover2Settings.Instance.ReqRefLvl)
+                                MrItemRemover2Settings.Instance.SellDrinks == "True" && item.ItemInfo.RequiredLevel <= MrItemRemover2Settings.Instance.ReqRefLvl)
                             {
                                 Slog("Item Matched Selling Drink List {0}", item.Name);
                                 item.UseContainerItem();
@@ -162,12 +162,6 @@ namespace MrItemRemover2
             // we can't use it as our iterator--we must make a copy, instead.
             List<WoWItem> itemsToVisit = Me.BagItems.ToList();
 
-            var groups = itemsToVisit.GroupBy(v => v);
-            foreach (var group in groups)
-            {
-                Dlog("Value {0} has {1} items", group.Key, group.Count());
-            }
-
             foreach (WoWItem item in itemsToVisit)
             {
                 if (!item.IsValid)
@@ -183,8 +177,6 @@ namespace MrItemRemover2
                     return;
                 }
 
-                
-
                 if (OpnList.Contains(item.Name) && item.IsOpenable &&
                     MrItemRemover2Settings.Instance.EnableOpen == "True")
                 {
@@ -194,7 +186,7 @@ namespace MrItemRemover2
 
                 if (OpnList.Contains(item.Name) && item.StackCount == 1)
                 {
-                    Slog("{0} can be combined, so we're combining it.", item.Name);
+                    Slog("{0} can be opened, so we're opening it.", item.Name);
                     Lua.DoString("UseItemByName(\"" + item.Name + "\")");
                 }
 
