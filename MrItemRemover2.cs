@@ -4,7 +4,7 @@
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.3 for WoW Version 5.4.2 +
+ * Version 2.3.1 for WoW Version 5.4.2 +
  */
 
 using System;
@@ -41,7 +41,7 @@ namespace MrItemRemover2
             string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList3.txt"));
 
         private readonly string _combineList5Path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList3.txt"));
+            string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameCombineList5.txt"));
 
         private readonly string _drinkListPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
             string.Format(@"Plugins/MrItemRemover2/Lists/ItemNameDrinkList.txt"));
@@ -89,7 +89,7 @@ namespace MrItemRemover2
 
         public override Version Version
         {
-            get { return new Version(2, 3); }
+            get { return new Version(2, 3, 1); }
         }
 
         public override bool WantButton
@@ -135,7 +135,7 @@ namespace MrItemRemover2
 
         public static void Dlog(string format, params object[] args)
         {
-            Dlog(Colors.SlateBlue, format, args);
+            Dlog(Colors.Tomato, format, args);
         }
 
         public static void Dlog(Color color, string format, params object[] args)
@@ -150,7 +150,6 @@ namespace MrItemRemover2
             Lua.Events.AttachEvent("LOOT_CLOSED", LootEnded);
             Lua.DoString("SetCVar('AutoLootDefault','1')");
 
-            Slog("THIS IS A MIR2 DEV COPY. USE AT YOUR OWN RISK.");
             InitialMirLoad();
             MrItemRemover2Settings.Instance.Load();
             PrintSettings();
@@ -169,7 +168,7 @@ namespace MrItemRemover2
             IsInitialized = false;
             MirSave();
 
-            Dlog("MIRDEV is now disabled.");
+            Dlog("MIR is now disabled.");
         }
 
         public override void Pulse()
