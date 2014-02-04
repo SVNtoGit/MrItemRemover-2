@@ -4,7 +4,7 @@
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.3.1 for WoW Version 5.4.2 +
+ * Version 2.3.2 for WoW Version 5.4.2 +
  */
 
 using System;
@@ -89,7 +89,7 @@ namespace MrItemRemover2
 
         public override Version Version
         {
-            get { return new Version(2, 3, 1); }
+            get { return new Version(2, 3, 2); }
         }
 
         public override bool WantButton
