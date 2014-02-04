@@ -266,43 +266,73 @@ namespace MrItemRemover2
                     Lua.DoString("DeleteCursorItem()");
                 }
 
-                string goldString =
-                    MrItemRemover2Settings.Instance.GoldGrays.ToString(CultureInfo.InvariantCulture);
-                int goldValue = goldString.ToInt32()*10000;
-                string silverString =
-                    MrItemRemover2Settings.Instance.SilverGrays.ToString(CultureInfo.InvariantCulture);
-                int silverValue = silverString.ToInt32()*100;
-                string copperString =
-                    MrItemRemover2Settings.Instance.CopperGrays.ToString(CultureInfo.InvariantCulture);
-                int copperValue = copperString.ToInt32();
+                
 
-                if (((MrItemRemover2Settings.Instance.DeleteAllGray == "True" && item.Quality == WoWItemQuality.Poor && item.ItemInfo.SellPrice <= (goldValue + silverValue + copperValue)) ||
-                     (MrItemRemover2Settings.Instance.DeleteAllWhite == "True" && item.Quality == WoWItemQuality.Common) ||
-                     (MrItemRemover2Settings.Instance.DeleteAllGreen == "True" && item.Quality == WoWItemQuality.Uncommon) ||
-                     (MrItemRemover2Settings.Instance.DeleteAllBlue == "True" && item.Quality == WoWItemQuality.Rare)) &&
-                     (item.BagSlot != -1 && !isQuestItem && !KeepList.Contains(item.Name) && !BagList.Contains(item.Name) &&
-                     (ItemName.Contains(item.Name))))
+                //Process all Gray Items if enabled. 
+                if (MrItemRemover2Settings.Instance.DeleteAllGray == "True" && item.Quality == WoWItemQuality.Poor)
                 {
-                    switch (item.Quality)
-                    {
-                        case WoWItemQuality.Poor:
-                            Slog("{0}'s Item Quality was {1} and only worth {2} copper. Removing.", item.Name,
-                                WoWItemQuality.Poor, item.ItemInfo.SellPrice);
-                            break;
-                        case WoWItemQuality.Common:
-                            Slog("{0}'s Item Quality was {1}. Removing.", item.Name, WoWItemQuality.Common);
-                            break;
-                        case WoWItemQuality.Uncommon:
-                            Slog("{0}'s Item Quality was {1}. Removing.", item.Name, WoWItemQuality.Uncommon);
-                            break;
-                        case WoWItemQuality.Rare:
-                            Slog("{0}'s Item Quality was {1}. Removing.", item.Name, WoWItemQuality.Rare);
-                            break;
-                    }
+                    //Gold Format, goes in GXX SXX CXX 
+                    string goldString = MrItemRemover2Settings.Instance.GoldGrays.ToString(CultureInfo.InvariantCulture);
+                    int goldValue = goldString.ToInt32() * 10000;
+                    string silverString =
+                        MrItemRemover2Settings.Instance.SilverGrays.ToString(CultureInfo.InvariantCulture);
+                    int silverValue = silverString.ToInt32() * 100;
+                    string copperString =
+                        MrItemRemover2Settings.Instance.CopperGrays.ToString(CultureInfo.InvariantCulture);
+                    int copperValue = copperString.ToInt32();
 
-                    Lua.DoString("ClearCursor()");
-                    item.PickUp();
-                    Lua.DoString("DeleteCursorItem()");
+                    //slog("Value of input sell string - " + (goldValue + silverValue + copperValue));
+
+                    if (item.BagSlot != -1 && !isQuestItem &&
+                        item.ItemInfo.SellPrice <= (goldValue + silverValue + copperValue) &&
+                        !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
+                    {
+                        Slog("{0}'s Item Quality was Poor and only worth {1} copper. Removing.", item.Name,
+                            item.ItemInfo.SellPrice);
+                        Lua.DoString("ClearCursor()");
+                        item.PickUp();
+                        Lua.DoString("DeleteCursorItem()");
+                    }
+                }
+
+                //Process all White Items if enabled.
+                if (MrItemRemover2Settings.Instance.DeleteAllWhite == "True" && item.Quality == WoWItemQuality.Common)
+                {
+                    if (item.BagSlot != -1 && !isQuestItem && !KeepList.Contains(item.Name) &&
+                        !BagList.Contains(item.Name) && !FoodList.Contains(item.Name) &&
+                        !DrinkList.Contains(item.Name))
+                    {
+                        Slog("{0}'s Item Quality was Common. Removing.", item.Name);
+                        Lua.DoString("ClearCursor()");
+                        item.PickUp();
+                        Lua.DoString("DeleteCursorItem()");
+                    }
+                }
+
+                //Process all Green Items if enabled.
+                if (MrItemRemover2Settings.Instance.DeleteAllGreen == "True" && item.Quality == WoWItemQuality.Uncommon)
+                {
+                    if (item.BagSlot != -1 && !isQuestItem &&
+                        !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
+                    {
+                        Slog("{0}'s Item Quality was Uncommon. Removing.", item.Name);
+                        Lua.DoString("ClearCursor()");
+                        item.PickUp();
+                        Lua.DoString("DeleteCursorItem()");
+                    }
+                }
+
+                //Process all Blue Items if enabled.
+                if (MrItemRemover2Settings.Instance.DeleteAllBlue == "True" && item.Quality == WoWItemQuality.Rare)
+                {
+                    if (item.BagSlot != -1 && !isQuestItem &&
+                        !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
+                    {
+                        Slog("{0}'s Item Quality was Rare. Removing.", item.Name);
+                        Lua.DoString("ClearCursor()");
+                        item.PickUp();
+                        Lua.DoString("DeleteCursorItem()");
+                    }
                 }
 
                  
