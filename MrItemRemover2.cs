@@ -4,7 +4,7 @@
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.3.2 for WoW Version 5.4.2 +
+ * Version 2.3.3 for WoW Version 5.4.2 +
  */
 
 using System;
@@ -89,7 +89,7 @@ namespace MrItemRemover2
 
         public override Version Version
         {
-            get { return new Version(2, 3, 2); }
+            get { return new Version(2, 3, 3); }
         }
 
         public override bool WantButton
@@ -102,7 +102,10 @@ namespace MrItemRemover2
             get { return "MIR2 Settings"; }
         }
 
+// ReSharper disable UnusedAutoPropertyAccessor.Local
         public MrItemRemover2 Controller { get; private set; }
+// ReSharper restore UnusedAutoPropertyAccessor.Local
+
         public bool ManualCheckRequested { get; set; }
         private bool EnableCheck { get; set; }
         private bool IsInitialized { get; set; }
