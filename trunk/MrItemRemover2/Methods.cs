@@ -19,6 +19,11 @@ namespace MrItemRemover2
             if (MerchantFrame.Instance.IsVisible && IsInitialized &&
                 MrItemRemover2Settings.Instance.EnableSell == "True")
             {
+                LoadList(FoodList, _foodListPath);
+                LoadList(DrinkList, _drinkListPath);
+                LoadList(ItemNameSell, _sellListPath);
+                LoadList(BagList, _bagListPath);
+
                 foreach (WoWItem item in Me.BagItems)
                 {
                     if (MrItemRemover2Settings.Instance.SellSoulbound == "False")
@@ -85,7 +90,8 @@ namespace MrItemRemover2
                                 item.UseContainerItem();
                             }
                             if ((item.Quality == WoWItemQuality.Common &&
-                                 MrItemRemover2Settings.Instance.SellWhite == "True"))
+                                 MrItemRemover2Settings.Instance.SellWhite == "True" && !FoodList.Contains(item.Name) &&
+                                !DrinkList.Contains(item.Name)))
                             {
                                 Slog("Selling White Item {0}", item.Name);
                                 item.UseContainerItem();
@@ -174,7 +180,7 @@ namespace MrItemRemover2
                 if (BagList.Contains(item.Name))
                 {
                     Slog("{0} is a bag, ignoring.", item.Name);
-                    return;
+                    continue;
                 }
 
                 if (OpnList.Contains(item.Name) && item.IsOpenable &&
@@ -269,7 +275,7 @@ namespace MrItemRemover2
                 
 
                 //Process all Gray Items if enabled. 
-                if (MrItemRemover2Settings.Instance.DeleteAllGray == "True" && item.Quality == WoWItemQuality.Poor)
+                if (MrItemRemover2Settings.Instance.DeleteAllGray == "True" && item.Quality == WoWItemQuality.Poor && !BagList.Contains(item.Name))
                 {
                     //Gold Format, goes in GXX SXX CXX 
                     string goldString = MrItemRemover2Settings.Instance.GoldGrays.ToString(CultureInfo.InvariantCulture);
@@ -296,7 +302,7 @@ namespace MrItemRemover2
                 }
 
                 //Process all White Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllWhite == "True" && item.Quality == WoWItemQuality.Common)
+                if (MrItemRemover2Settings.Instance.DeleteAllWhite == "True" && item.Quality == WoWItemQuality.Common && !BagList.Contains(item.Name))
                 {
                     if (item.BagSlot != -1 && !isQuestItem && !KeepList.Contains(item.Name) &&
                         !BagList.Contains(item.Name) && !FoodList.Contains(item.Name) &&
@@ -310,7 +316,7 @@ namespace MrItemRemover2
                 }
 
                 //Process all Green Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllGreen == "True" && item.Quality == WoWItemQuality.Uncommon)
+                if (MrItemRemover2Settings.Instance.DeleteAllGreen == "True" && item.Quality == WoWItemQuality.Uncommon && !BagList.Contains(item.Name))
                 {
                     if (item.BagSlot != -1 && !isQuestItem &&
                         !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
@@ -323,7 +329,7 @@ namespace MrItemRemover2
                 }
 
                 //Process all Blue Items if enabled.
-                if (MrItemRemover2Settings.Instance.DeleteAllBlue == "True" && item.Quality == WoWItemQuality.Rare)
+                if (MrItemRemover2Settings.Instance.DeleteAllBlue == "True" && item.Quality == WoWItemQuality.Rare && !BagList.Contains(item.Name))
                 {
                     if (item.BagSlot != -1 && !isQuestItem &&
                         !KeepList.Contains(item.Name) && !BagList.Contains(item.Name))
@@ -333,9 +339,7 @@ namespace MrItemRemover2
                         item.PickUp();
                         Lua.DoString("DeleteCursorItem()");
                     }
-                }
-
-                 
+                }    
             }
         }
 
