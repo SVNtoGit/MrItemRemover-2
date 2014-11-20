@@ -1,10 +1,10 @@
 ﻿/*
  * Mr.ItemRemover2 - Created by CodenameGamma - 1-31-11 - For WoW Version 4.0.3
- * 2.3 Update by Bambam922
+ * 2.4 Update by Bambam922
  * www.thebuddyforum.com
  * This is a free plugin and should not be sold or repackaged.
  * Donations accepted.
- * Version 2.3.3 for WoW Version 5.4.2 +
+ * Version 2.4 for WoW Version 6.0.3 +
  */
 
 using System;
@@ -89,7 +89,7 @@ namespace MrItemRemover2
 
         public override Version Version
         {
-            get { return new Version(2, 3, 3); }
+            get { return new Version(2, 4); }
         }
 
         public override bool WantButton
@@ -138,7 +138,7 @@ namespace MrItemRemover2
 
         public static void Dlog(string format, params object[] args)
         {
-            Dlog(Colors.Tomato, format, args);
+            Dlog(Colors.Crimson, format, args);
         }
 
         public static void Dlog(Color color, string format, params object[] args)

@@ -32,8 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GreyMagic">
+      <HintPath>..\..\GreyMagic.dll</HintPath>
+    </Reference>
     <Reference Include="Honorbuddy">
-      <HintPath>..\..\..\hb nightly\Honorbuddy.exe</HintPath>
+      <HintPath>..\..\Honorbuddy.exe</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
@@ -46,7 +49,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Tripper.Tools">
-      <HintPath>..\..\..\hb nightly\Tripper.Tools.dll</HintPath>
+      <HintPath>..\..\Tripper.Tools.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
